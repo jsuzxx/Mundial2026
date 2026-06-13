@@ -1,10 +1,6 @@
 """
-Descarga resultados del Mundial 2026 desde football-data.org
-y actualiza results.json en el repo.
-
+Descarga resultados del Mundial 2026 desde football-data.org y actualiza results.json.
 Corre como GitHub Action con el secret FD_TOKEN.
-Solo toca las claves m01-m72 (fase de grupos); los resultados
-de fases eliminatorias (r01+) se preservan si existen.
 """
 
 import os, json, sys, urllib.request, urllib.error
@@ -12,13 +8,12 @@ from datetime import datetime, timezone, timedelta
 
 FD_TOKEN = os.environ.get('FD_TOKEN', '')
 if not FD_TOKEN:
-    print('[ERROR] Variable FD_TOKEN no definida.')
+    print('[ERROR] Variable FD_TOKEN no definida. Agrega el Secret FD_TOKEN en GitHub.')
     sys.exit(1)
 
-FD_URL = 'https://api.football-data.org/v4/competitions/WC/matches'
-COT_OFFSET = timedelta(hours=-5)
+FD_BASE  = 'https://api.football-data.org/v4'
+COT_TZ   = timezone(timedelta(hours=-5))
 
-# TLA football-data.org → código interno
 TLA_MAP = {
     'MEX':'MEX', 'RSA':'RSA', 'SAF':'RSA', 'KOR':'KOR', 'CZE':'CZE',
     'CAN':'CAN', 'BIH':'BIH', 'QAT':'QAT', 'SUI':'SUI',
@@ -34,8 +29,6 @@ TLA_MAP = {
     'BRA':'BRA', 'MAR':'MAR', 'HAI':'HAI', 'HTI':'HAI', 'SCO':'SCO',
 }
 
-# (date_COT, homeTLA, awayTLA) → matchId
-# Permite cruzar los partidos de la API con nuestros IDs
 SCHEDULE = {
     ('2026-06-11','MEX','RSA'):'m01', ('2026-06-11','KOR','CZE'):'m02',
     ('2026-06-12','CAN','BIH'):'m03', ('2026-06-12','USA','PAR'):'m04',
@@ -76,27 +69,77 @@ SCHEDULE = {
 }
 
 
-def fetch_api():
-    req = urllib.request.Request(FD_URL, headers={'X-Auth-Token': FD_TOKEN})
+def api_get(path):
+    url = FD_BASE + path
+    req = urllib.request.Request(url, headers={'X-Auth-Token': FD_TOKEN})
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        remaining = resp.headers.get('X-Requests-Available-Minute')
+        if remaining and int(remaining) < 3:
+            print(f'[WARN] Rate limit: solo {remaining} req disponibles este minuto')
+        return json.loads(resp.read())
+
+
+def find_wc_code():
+    """Busca el código de la Copa del Mundo entre las competiciones disponibles."""
+    print('[INFO] Listando competiciones disponibles...')
     try:
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            remaining = resp.headers.get('X-Requests-Available-Minute')
-            if remaining and int(remaining) < 2:
-                print(f'[WARN] Rate limit casi agotado: {remaining} req restantes este minuto')
-            return json.loads(resp.read())
+        data = api_get('/competitions')
+        competitions = data.get('competitions', [])
+        print(f'[INFO] Competiciones disponibles ({len(competitions)}):')
+        for c in competitions:
+            print(f'       {c.get("code","?"):10} | {c.get("name","?")}')
+
+        # Buscar por código exacto primero, luego por nombre
+        for c in competitions:
+            if c.get('code') == 'WC':
+                print(f'[OK] Encontrada: WC — {c.get("name")}')
+                return 'WC'
+        for c in competitions:
+            name = c.get('name', '').lower()
+            if 'world cup' in name or 'mundial' in name or 'fifa' in name:
+                code = c.get('code')
+                print(f'[OK] Encontrada por nombre: {code} — {c.get("name")}')
+                return code
+
+        print('[WARN] Copa del Mundo no encontrada en las competiciones disponibles.')
+        print('[INFO] Puede que no esté incluida en tu plan gratuito.')
+        print('[INFO] Verifica en https://www.football-data.org/coverage')
+        return None
+
     except urllib.error.HTTPError as e:
+        print(f'[ERROR] HTTP {e.code} al listar competiciones: {e.reason}')
+        body = e.read().decode('utf-8', errors='replace')
+        print(f'[ERROR] Respuesta: {body[:500]}')
+        return None
+
+
+def fetch_matches(comp_code):
+    print(f'[INFO] Descargando partidos de la competición: {comp_code}')
+    try:
+        data = api_get(f'/competitions/{comp_code}/matches')
+        matches = data.get('matches', [])
+        print(f'[INFO] Total partidos recibidos: {len(matches)}')
+
+        # Mostrar los primeros partidos con resultado para diagnóstico
+        finished = [m for m in matches if m.get('status') in ('FINISHED', 'IN_PLAY', 'PAUSED')]
+        print(f'[INFO] Partidos terminados o en juego: {len(finished)}')
+        for m in finished[:5]:
+            ht = (m.get('homeTeam') or {}).get('tla', '?')
+            at = (m.get('awayTeam') or {}).get('tla', '?')
+            sc = (m.get('score') or {}).get('fullTime') or {}
+            print(f'       {ht} {sc.get("home","?")} - {sc.get("away","?")} {at}  [{m.get("status")}]')
+
+        return matches
+    except urllib.error.HTTPError as e:
+        body = e.read().decode('utf-8', errors='replace')
         print(f'[ERROR] HTTP {e.code}: {e.reason}')
-        if e.code == 404:
-            print('[INFO] Competición WC no encontrada en la API (puede no estar disponible aún)')
-        sys.exit(0)  # salida limpia: no borrar results.json
-    except urllib.error.URLError as e:
-        print(f'[ERROR] Conexión fallida: {e.reason}')
-        sys.exit(0)
+        print(f'[ERROR] Respuesta: {body[:500]}')
+        return []
 
 
 def map_results(api_matches):
     mapped = {}
-    skipped = []
+    not_mapped = []
     for m in api_matches:
         status = m.get('status', '')
         if status not in ('FINISHED', 'IN_PLAY', 'PAUSED'):
@@ -106,59 +149,66 @@ def map_results(api_matches):
         if gh is None or ga is None:
             continue
 
-        home_tla = TLA_MAP.get((m.get('homeTeam') or {}).get('tla', ''))
-        away_tla = TLA_MAP.get((m.get('awayTeam') or {}).get('tla', ''))
-        if not home_tla or not away_tla:
-            skipped.append(f"{m.get('homeTeam',{}).get('tla')} vs {m.get('awayTeam',{}).get('tla')}")
+        ht_tla = (m.get('homeTeam') or {}).get('tla', '')
+        at_tla = (m.get('awayTeam') or {}).get('tla', '')
+        home = TLA_MAP.get(ht_tla)
+        away = TLA_MAP.get(at_tla)
+        if not home or not away:
+            not_mapped.append(f'TLA desconocida: {ht_tla} o {at_tla}')
             continue
 
-        # Convertir utcDate → fecha COT
-        utc_dt = datetime.fromisoformat(m['utcDate'].replace('Z', '+00:00'))
-        cot_dt = utc_dt.astimezone(timezone(COT_OFFSET))
+        utc_dt  = datetime.fromisoformat(m['utcDate'].replace('Z', '+00:00'))
+        cot_dt  = utc_dt.astimezone(COT_TZ)
         cot_date = cot_dt.strftime('%Y-%m-%d')
 
-        match_id = SCHEDULE.get((cot_date, home_tla, away_tla))
+        match_id = SCHEDULE.get((cot_date, home, away))
         if match_id:
             entry = {'home': gh, 'away': ga}
-            if status == 'IN_PLAY' or status == 'PAUSED':
+            if status in ('IN_PLAY', 'PAUSED'):
                 entry['live'] = True
             mapped[match_id] = entry
         else:
-            skipped.append(f'{cot_date} {home_tla}-{away_tla}')
+            not_mapped.append(f'Sin ID: {cot_date} {home}-{away}')
 
-    if skipped:
-        print(f'[WARN] No mapeados: {skipped}')
+    if not_mapped:
+        print(f'[WARN] No mapeados ({len(not_mapped)}): {not_mapped[:10]}')
     return mapped
 
 
 def main():
-    print('[INFO] Consultando football-data.org...')
-    data = fetch_api()
-    matches = data.get('matches', [])
-    print(f'[INFO] Partidos recibidos de la API: {len(matches)}')
-
-    new_results = map_results(matches)
-    print(f'[INFO] Partidos con resultado: {len(new_results)}')
-
-    # Leer results.json existente (preservar fases eliminatorias r01+)
     results_path = os.path.join(os.path.dirname(__file__), '..', 'results.json')
+
+    # 1. Descubrir el código de la competición
+    comp_code = find_wc_code()
+    if not comp_code:
+        print('[EXIT] No se puede continuar sin código de competición. results.json no se modifica.')
+        sys.exit(0)
+
+    # 2. Descargar partidos
+    api_matches = fetch_matches(comp_code)
+    if not api_matches:
+        print('[EXIT] No se recibieron partidos. results.json no se modifica.')
+        sys.exit(0)
+
+    # 3. Mapear a nuestros IDs
+    new_results = map_results(api_matches)
+    print(f'[INFO] Partidos mapeados con resultado: {len(new_results)}')
+
+    # 4. Leer archivo actual y preservar fases eliminatorias (r*)
     try:
         with open(results_path, 'r', encoding='utf-8') as f:
             existing = json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         existing = {}
 
-    # Combinar: API actualiza grupos (m*), preservar eliminatorias (r*)
-    knockout_data = {k: v for k, v in existing.items() if k.startswith('r')}
-    merged = {**knockout_data, **new_results}
-
-    # Añadir timestamp de última actualización
+    knockout = {k: v for k, v in existing.items() if k.startswith('r')}
+    merged   = {**knockout, **new_results}
     merged['_updated'] = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
 
     with open(results_path, 'w', encoding='utf-8') as f:
         json.dump(merged, f, ensure_ascii=False, indent=2)
 
-    print(f'[OK] results.json actualizado con {len(new_results)} resultados.')
+    print(f'[OK] results.json guardado con {len(new_results)} resultados de grupos.')
 
 
 if __name__ == '__main__':
