@@ -167,11 +167,11 @@ const MATCHES = [
 
 const GROUPS_DEF = {
   A:['MEX','RSA','KOR','CZE'], B:['CAN','BIH','QAT','SUI'],
-  C:['USA','PAR','AUS','TUR'], D:['GER','CUW','NED','JPN'],
-  E:['CIV','ECU','SWE','TUN'], F:['ESP','CPV','BEL','EGY'],
-  G:['KSA','URU','IRN','NZL'], H:['FRA','SEN','IRQ','NOR'],
-  I:['ARG','ALG','AUT','JOR'], J:['POR','COD','ENG','CRO'],
-  K:['GHA','PAN','UZB','COL'], L:['BRA','MAR','HAI','SCO'],
+  C:['BRA','MAR','HAI','SCO'], D:['USA','PAR','AUS','TUR'],
+  E:['GER','CUW','CIV','ECU'], F:['NED','JPN','SWE','TUN'],
+  G:['BEL','EGY','IRN','NZL'], H:['ESP','CPV','KSA','URU'],
+  I:['FRA','SEN','IRQ','NOR'], J:['ARG','ALG','AUT','JOR'],
+  K:['POR','COD','UZB','COL'], L:['ENG','CRO','GHA','PAN'],
 };
 
 // Round of 32 pairings (FIFA 2026 official bracket)
