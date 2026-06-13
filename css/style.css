@@ -132,6 +132,10 @@ main{max-width:960px;margin:0 auto;padding:1.5rem 1rem 3rem;}
 .legend-dot.q1{background:var(--green);}
 .legend-dot.q2{background:var(--accent);}
 
+.admin-toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:#1A2235;border:1px solid var(--border);border-radius:10px;padding:.7rem 1.2rem;font-size:.82rem;font-weight:600;color:var(--text);box-shadow:0 8px 30px rgba(0,0,0,.4);z-index:200;transition:opacity .5s;pointer-events:none;white-space:nowrap;}
+.admin-toast.ok{border-color:var(--green);color:var(--green);}
+.admin-toast.err{border-color:var(--red);color:var(--red);}
+
 [data-hidden="true"]{display:none!important;}
 @media(max-width:500px){
   .team-name{font-size:.75rem;}

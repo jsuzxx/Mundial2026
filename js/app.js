@@ -234,35 +234,55 @@ let isAdmin = false;
 })();
 
 // ════════════════════════════════════════════════════════
-// SYNC  —  todos los visitantes leen results.json desde GitHub
+// SYNC  —  todos leen results.json via GitHub API (sin caché CDN)
 //          el admin escribe en ese mismo archivo via GitHub API
 // ════════════════════════════════════════════════════════
-const GH_OWNER    = 'jsuzxx';
-const GH_REPO     = 'Mundial2026';
-const GH_BRANCH   = 'main';
-const RAW_URL     = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}/results.json`;
-const API_FILE    = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/results.json`;
-const CACHE_KEY   = 'wc2026_results';
-const CACHE_TS    = 'wc2026_ts';
-const CACHE_TTL   = 60 * 1000; // 1 minuto
+const GH_OWNER  = 'jsuzxx';
+const GH_REPO   = 'Mundial2026';
+const GH_BRANCH = 'main';
+const API_FILE  = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/results.json`;
+const CACHE_KEY = 'wc2026_results';
+const CACHE_TS  = 'wc2026_ts';
+const CACHE_TTL = 30 * 1000; // 30 segundos
 
 let results   = {};
 let syncState = 'loading';
-let _fileSha  = null; // SHA del archivo actual en GitHub (necesario para actualizarlo)
 
-function updateSyncUI() {
+function updateSyncUI(msg) {
   const dot = document.getElementById('sync-dot');
   const txt = document.getElementById('sync-txt');
   if (!dot || !txt) return;
-  dot.className = 'sync-dot ' + (syncState === 'saving' || syncState === 'saved' ? 'ok' : syncState);
-  const labels = {
-    loading: 'Cargando...',
-    ok:      'Resultados al día',
-    err:     'Sin conexión',
-    saving:  'Guardando...',
-    saved:   'Guardado ✓',
-  };
-  txt.textContent = labels[syncState] || '';
+  const stateClass = { loading:'loading', ok:'ok', err:'err', saving:'loading', saved:'ok' };
+  dot.className = 'sync-dot ' + (stateClass[syncState] || 'ok');
+  txt.textContent = msg || { loading:'Cargando...', ok:'Resultados al día', err:'Sin conexión', saving:'Guardando en GitHub...', saved:'Guardado ✓' }[syncState] || '';
+}
+
+// Toast visible para el admin
+function toast(msg, type = 'ok') {
+  let el = document.getElementById('admin-toast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'admin-toast';
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.className = 'admin-toast ' + type;
+  el.style.opacity = '1';
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.style.opacity = '0'; }, 3500);
+}
+
+// Leer results.json via GitHub Contents API (nunca cacheado por CDN)
+async function ghGet() {
+  const headers = { Accept: 'application/vnd.github+json' };
+  const pat = localStorage.getItem('wc2026_pat');
+  if (pat) headers.Authorization = `Bearer ${pat}`;
+
+  const r = await fetch(API_FILE, { headers });
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  const meta = await r.json();
+  const json = decodeURIComponent(escape(atob(meta.content.replace(/\n/g, ''))));
+  return { data: JSON.parse(json), sha: meta.sha };
 }
 
 async function fetchResults(force = false) {
@@ -277,20 +297,16 @@ async function fetchResults(force = false) {
   }
   syncState = 'loading'; updateSyncUI();
   try {
-    const res = await fetch(RAW_URL + '?t=' + Date.now());
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
+    const { data } = await ghGet();
     results = data;
     localStorage.setItem(CACHE_KEY, JSON.stringify(data));
     localStorage.setItem(CACHE_TS, String(Date.now()));
+    syncState = 'ok';
     if (data._updated) {
       const ago = Math.round((Date.now() - new Date(data._updated).getTime()) / 60000);
-      document.getElementById('sync-txt').textContent =
-        `Actualizado hace ${ago < 1 ? 'menos de 1' : ago} min`;
-      document.getElementById('sync-dot').className = 'sync-dot ok';
-      syncState = 'ok'; return;
+      updateSyncUI(`Actualizado hace ${ago < 1 ? 'menos de 1' : ago} min`);
+      return;
     }
-    syncState = 'ok';
   } catch(e) {
     try { results = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}'); } catch(_) { results = {}; }
     syncState = 'err';
@@ -304,20 +320,16 @@ async function saveToGitHub() {
 
   syncState = 'saving'; updateSyncUI();
   try {
-    // Obtener SHA actual del archivo (necesario para el PUT)
-    if (!_fileSha) {
-      const r = await fetch(API_FILE, {
-        headers: { Authorization: `Bearer ${pat}`, Accept: 'application/vnd.github+json' }
-      });
-      if (!r.ok) throw new Error('No se pudo leer el archivo (' + r.status + ')');
-      _fileSha = (await r.json()).sha;
-    }
+    // Siempre obtener SHA fresco — nunca cachear entre guardados
+    const { sha } = await ghGet();
 
-    const payload = { ...results, _updated: new Date().toISOString() };
-    delete payload._updated; // reinsert last to keep order tidy
+    const payload = { ...results };
+    delete payload._updated;
     payload._updated = new Date().toISOString();
 
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+    const body = JSON.stringify(payload, null, 2);
+    const content = btoa(unescape(encodeURIComponent(body)));
+
     const put = await fetch(API_FILE, {
       method: 'PUT',
       headers: {
@@ -325,32 +337,45 @@ async function saveToGitHub() {
         Accept: 'application/vnd.github+json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ message: 'chore: actualizar resultados', content, sha: _fileSha, branch: GH_BRANCH }),
+      body: JSON.stringify({ message: 'chore: actualizar resultados', content, sha, branch: GH_BRANCH }),
     });
-    if (!put.ok) { const e = await put.json(); throw new Error(e.message || put.status); }
 
-    _fileSha = (await put.json()).content.sha;
+    if (!put.ok) {
+      const errData = await put.json().catch(() => ({}));
+      throw new Error(errData.message || `HTTP ${put.status}`);
+    }
+
+    // Actualizar caché local con los datos recién guardados
     localStorage.setItem(CACHE_KEY, JSON.stringify(payload));
     localStorage.setItem(CACHE_TS, String(Date.now()));
+    results = payload;
 
     syncState = 'saved'; updateSyncUI();
-    setTimeout(() => { syncState = 'ok'; updateSyncUI(); }, 2500);
+    toast('✅ Guardado. Todos verán el resultado en segundos.');
+    setTimeout(() => { syncState = 'ok'; updateSyncUI(); }, 3000);
     return true;
+
   } catch(e) {
-    console.error('[GitHub]', e);
-    if (e.message.includes('401') || e.message.includes('403')) {
+    syncState = 'ok'; updateSyncUI();
+    const msg = e.message || String(e);
+    console.error('[GitHub save]', msg);
+
+    if (msg.includes('401') || msg.includes('Bad credentials') || msg.includes('403')) {
       localStorage.removeItem('wc2026_pat');
       showTokenSetup('Tu clave de GitHub venció o es inválida. Ingresa una nueva.');
+    } else if (msg.includes('409') || msg.includes('conflict')) {
+      // SHA desincronizado — reintentar una vez con SHA fresco
+      toast('⚠️ Conflicto de versión. Reintentando...', 'err');
+      return saveToGitHub();
     } else {
-      alert('Error al guardar: ' + e.message);
+      toast('❌ Error al guardar: ' + msg, 'err');
     }
-    syncState = 'ok'; updateSyncUI();
     return false;
   }
 }
 
-// Refrescar cada minuto para que todos los visitantes vean cambios del admin
-setInterval(() => fetchResults(true), 60 * 1000);
+// Refrescar cada 30 segundos
+setInterval(() => fetchResults(true), 30 * 1000);
 
 // ════════════════════════════════════════════════════════
 // DATE UTILS
