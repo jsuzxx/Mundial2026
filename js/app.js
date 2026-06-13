@@ -213,90 +213,146 @@ const DAYS_ES=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sába
 const MONTHS_ES=['enero','febrero','marzo','abril','mayo','junio','julio'];
 
 // ════════════════════════════════════════════════════════
-// ADMIN MODE  (solo el dueño del repo ve botones de edición)
-// Activar: añadir ?admin=1 a la URL, o hacer clic 7 veces en el trofeo
+// ADMIN SETUP
+// Visita la app con ?setup=TU_TOKEN una sola vez desde tu dispositivo.
+// El token (GitHub PAT con permiso contents:write) se guarda en
+// localStorage y nunca aparece en el código público.
 // ════════════════════════════════════════════════════════
-let isAdmin = new URLSearchParams(location.search).has('admin');
-let _trophyClicks = 0;
-document.addEventListener('DOMContentLoaded', () => {
-  const trophy = document.querySelector('.trophy');
-  if (!trophy) return;
-  trophy.style.cursor = 'default';
-  trophy.addEventListener('click', () => {
-    if (++_trophyClicks >= 7) {
-      isAdmin = true; _trophyClicks = 0;
-      trophy.textContent = '🏆🔑';
-      setTimeout(() => { trophy.textContent = '🏆'; }, 1500);
-      refresh();
-    }
-  });
-});
+(function() {
+  const p = new URLSearchParams(location.search);
+  const tok = p.get('setup');
+  if (tok) {
+    localStorage.setItem('wc2026_pat', tok);
+    p.delete('setup');
+    history.replaceState({}, '', location.pathname + (p.toString() ? '?' + p : ''));
+    console.log('[Admin] Token guardado correctamente.');
+  }
+})();
 
 // ════════════════════════════════════════════════════════
-// SYNC  — lee results.json publicado por GitHub Actions cada 5 min
-// El token de la API nunca toca el cliente; lo usa el bot en el servidor.
+// ADMIN MODE  — activo si hay PAT guardado en este navegador
 // ════════════════════════════════════════════════════════
-const RESULTS_URL  = 'https://raw.githubusercontent.com/jsuzxx/Mundial2026/main/results.json';
-const CACHE_KEY    = 'wc2026_results';
-const CACHE_TS_KEY = 'wc2026_results_ts';
-const CACHE_TTL    = 5 * 60 * 1000; // 5 minutos (sincronizado con el cron del bot)
+let isAdmin = !!localStorage.getItem('wc2026_pat');
+
+// ════════════════════════════════════════════════════════
+// SYNC  —  todos los visitantes leen results.json desde GitHub
+//          el admin escribe en ese mismo archivo via GitHub API
+// ════════════════════════════════════════════════════════
+const GH_OWNER    = 'jsuzxx';
+const GH_REPO     = 'Mundial2026';
+const GH_BRANCH   = 'main';
+const RAW_URL     = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}/results.json`;
+const API_FILE    = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/results.json`;
+const CACHE_KEY   = 'wc2026_results';
+const CACHE_TS    = 'wc2026_ts';
+const CACHE_TTL   = 60 * 1000; // 1 minuto
 
 let results   = {};
 let syncState = 'loading';
+let _fileSha  = null; // SHA del archivo actual en GitHub (necesario para actualizarlo)
 
 function updateSyncUI() {
   const dot = document.getElementById('sync-dot');
   const txt = document.getElementById('sync-txt');
   if (!dot || !txt) return;
-  dot.className = 'sync-dot ' + syncState;
+  dot.className = 'sync-dot ' + (syncState === 'saving' || syncState === 'saved' ? 'ok' : syncState);
   const labels = {
-    loading: 'Sincronizando...',
-    ok:      'En vivo · actualizado automáticamente',
-    err:     'Sin conexión · usando caché',
-    cached:  'Desde caché local',
+    loading: 'Cargando...',
+    ok:      'Resultados al día',
+    err:     'Sin conexión',
+    saving:  'Guardando...',
+    saved:   'Guardado ✓',
   };
   txt.textContent = labels[syncState] || '';
 }
 
-async function fetchResults() {
-  // Usar caché local si todavía es fresca
-  const ts = parseInt(localStorage.getItem(CACHE_TS_KEY) || '0');
-  if (Date.now() - ts < CACHE_TTL) {
-    try {
-      results = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
-      syncState = 'cached'; updateSyncUI(); refresh(); return;
-    } catch(e) {}
+async function fetchResults(force = false) {
+  if (!force) {
+    const ts = parseInt(localStorage.getItem(CACHE_TS) || '0');
+    if (Date.now() - ts < CACHE_TTL) {
+      try {
+        results = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
+        syncState = 'ok'; updateSyncUI(); refresh(); return;
+      } catch(e) {}
+    }
   }
-
   syncState = 'loading'; updateSyncUI();
   try {
-    // cache-bust para que GitHub no devuelva el CDN cacheado
-    const res = await fetch(RESULTS_URL + '?t=' + Date.now());
+    const res = await fetch(RAW_URL + '?t=' + Date.now());
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     results = data;
     localStorage.setItem(CACHE_KEY, JSON.stringify(data));
-    localStorage.setItem(CACHE_TS_KEY, String(Date.now()));
-    // Mostrar timestamp de última actualización del bot
+    localStorage.setItem(CACHE_TS, String(Date.now()));
     if (data._updated) {
       const ago = Math.round((Date.now() - new Date(data._updated).getTime()) / 60000);
-      const dot = document.getElementById('sync-dot');
-      const txt = document.getElementById('sync-txt');
-      if (txt) txt.textContent = `Actualizado hace ${ago < 1 ? 'menos de 1' : ago} min`;
-      if (dot) dot.className = 'sync-dot ok';
+      document.getElementById('sync-txt').textContent =
+        `Actualizado hace ${ago < 1 ? 'menos de 1' : ago} min`;
+      document.getElementById('sync-dot').className = 'sync-dot ok';
+      syncState = 'ok'; return;
     }
     syncState = 'ok';
   } catch(e) {
-    console.warn('[Sync] Fallo, usando caché:', e.message);
     try { results = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}'); } catch(_) { results = {}; }
     syncState = 'err';
   }
-  updateSyncUI();
-  refresh();
+  updateSyncUI(); refresh();
 }
 
-// Refrescar cada 5 minutos (coincide con el cron del bot)
-setInterval(fetchResults, 5 * 60 * 1000);
+async function saveToGitHub() {
+  const pat = localStorage.getItem('wc2026_pat');
+  if (!pat) { alert('No hay token de admin. Visita la app con ?setup=TU_TOKEN primero.'); return false; }
+
+  syncState = 'saving'; updateSyncUI();
+  try {
+    // Obtener SHA actual del archivo (necesario para el PUT)
+    if (!_fileSha) {
+      const r = await fetch(API_FILE, {
+        headers: { Authorization: `Bearer ${pat}`, Accept: 'application/vnd.github+json' }
+      });
+      if (!r.ok) throw new Error('No se pudo leer el archivo (' + r.status + ')');
+      _fileSha = (await r.json()).sha;
+    }
+
+    const payload = { ...results, _updated: new Date().toISOString() };
+    delete payload._updated; // reinsert last to keep order tidy
+    payload._updated = new Date().toISOString();
+
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+    const put = await fetch(API_FILE, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${pat}`,
+        Accept: 'application/vnd.github+json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message: 'chore: actualizar resultados', content, sha: _fileSha, branch: GH_BRANCH }),
+    });
+    if (!put.ok) { const e = await put.json(); throw new Error(e.message || put.status); }
+
+    _fileSha = (await put.json()).content.sha;
+    localStorage.setItem(CACHE_KEY, JSON.stringify(payload));
+    localStorage.setItem(CACHE_TS, String(Date.now()));
+
+    syncState = 'saved'; updateSyncUI();
+    setTimeout(() => { syncState = 'ok'; updateSyncUI(); }, 2500);
+    return true;
+  } catch(e) {
+    console.error('[GitHub]', e);
+    if (e.message.includes('401') || e.message.includes('403')) {
+      alert('Token inválido o expirado. Visita ?setup=NUEVO_TOKEN para actualizarlo.');
+      localStorage.removeItem('wc2026_pat');
+      isAdmin = false; refresh();
+    } else {
+      alert('Error al guardar: ' + e.message);
+    }
+    syncState = 'ok'; updateSyncUI();
+    return false;
+  }
+}
+
+// Refrescar cada minuto para que todos los visitantes vean cambios del admin
+setInterval(() => fetchResults(true), 60 * 1000);
 
 // ════════════════════════════════════════════════════════
 // DATE UTILS
@@ -569,22 +625,19 @@ function openModal(id) {
 
 function closeModal() { document.getElementById('modal').style.display='none'; activeMatchId=null; }
 
-document.getElementById('btn-save').onclick = () => {
+document.getElementById('btn-save').onclick = async () => {
   const h = document.getElementById('inp-home').value;
   const a = document.getElementById('inp-away').value;
-  if (h==='' || a==='') return;
-  results[activeMatchId] = {home:parseInt(h), away:parseInt(a)};
-  // Save to localStorage as local override
-  localStorage.setItem(CACHE_KEY, JSON.stringify(results));
-  localStorage.setItem(CACHE_TS_KEY, String(Date.now()));
+  if (h === '' || a === '') return;
+  results[activeMatchId] = { home: parseInt(h), away: parseInt(a) };
   closeModal(); refresh();
+  await saveToGitHub();
 };
 
-document.getElementById('btn-clear').onclick = () => {
+document.getElementById('btn-clear').onclick = async () => {
   delete results[activeMatchId];
-  localStorage.setItem(CACHE_KEY, JSON.stringify(results));
-  localStorage.setItem(CACHE_TS_KEY, String(Date.now()));
   closeModal(); refresh();
+  await saveToGitHub();
 };
 
 document.getElementById('btn-cancel').onclick = closeModal;
