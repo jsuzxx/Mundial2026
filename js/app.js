@@ -213,26 +213,25 @@ const DAYS_ES=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sába
 const MONTHS_ES=['enero','febrero','marzo','abril','mayo','junio','julio'];
 
 // ════════════════════════════════════════════════════════
-// ADMIN SETUP
-// Visita la app con ?setup=TU_TOKEN una sola vez desde tu dispositivo.
-// El token (GitHub PAT con permiso contents:write) se guarda en
-// localStorage y nunca aparece en el código público.
+// ADMIN MODE
+// Contraseña de la URL: cambia ADMIN_KEY a cualquier palabra secreta.
+// Para activar: visita la app con ?key=TU_PALABRA en la URL.
+// La sesión queda guardada en este navegador hasta que cierres la pestaña.
 // ════════════════════════════════════════════════════════
+const ADMIN_KEY = 'colombia2026'; // ← CAMBIA ESTO A TU PALABRA SECRETA
+
+let isAdmin = false;
 (function() {
   const p = new URLSearchParams(location.search);
-  const tok = p.get('setup');
-  if (tok) {
-    localStorage.setItem('wc2026_pat', tok);
-    p.delete('setup');
+  if (p.get('key') === ADMIN_KEY) {
+    isAdmin = true;
+    sessionStorage.setItem('wc2026_admin', '1');
+    p.delete('key');
     history.replaceState({}, '', location.pathname + (p.toString() ? '?' + p : ''));
-    console.log('[Admin] Token guardado correctamente.');
+  } else if (sessionStorage.getItem('wc2026_admin')) {
+    isAdmin = true;
   }
 })();
-
-// ════════════════════════════════════════════════════════
-// ADMIN MODE  — activo si hay PAT guardado en este navegador
-// ════════════════════════════════════════════════════════
-let isAdmin = !!localStorage.getItem('wc2026_pat');
 
 // ════════════════════════════════════════════════════════
 // SYNC  —  todos los visitantes leen results.json desde GitHub
@@ -301,7 +300,7 @@ async function fetchResults(force = false) {
 
 async function saveToGitHub() {
   const pat = localStorage.getItem('wc2026_pat');
-  if (!pat) { alert('No hay token de admin. Visita la app con ?setup=TU_TOKEN primero.'); return false; }
+  if (!pat) { showTokenSetup(); return false; }
 
   syncState = 'saving'; updateSyncUI();
   try {
@@ -340,9 +339,8 @@ async function saveToGitHub() {
   } catch(e) {
     console.error('[GitHub]', e);
     if (e.message.includes('401') || e.message.includes('403')) {
-      alert('Token inválido o expirado. Visita ?setup=NUEVO_TOKEN para actualizarlo.');
       localStorage.removeItem('wc2026_pat');
-      isAdmin = false; refresh();
+      showTokenSetup('Tu clave de GitHub venció o es inválida. Ingresa una nueva.');
     } else {
       alert('Error al guardar: ' + e.message);
     }
@@ -699,6 +697,37 @@ function buildBanner() {
 }
 
 function refresh() { applyFilter(); }
+
+// ════════════════════════════════════════════════════════
+// SETUP TOKEN MODAL  (solo admin, primera vez o token vencido)
+// ════════════════════════════════════════════════════════
+function showTokenSetup(msg = '') {
+  const overlay = document.getElementById('token-setup-overlay');
+  if (msg) document.getElementById('token-setup-msg').textContent = msg;
+  overlay.style.display = 'flex';
+  setTimeout(() => document.getElementById('token-input').focus(), 100);
+}
+
+function hideTokenSetup() {
+  document.getElementById('token-setup-overlay').style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('btn-token-save').addEventListener('click', () => {
+    const val = document.getElementById('token-input').value.trim();
+    if (!val) return;
+    localStorage.setItem('wc2026_pat', val);
+    _fileSha = null; // forzar re-lectura del SHA
+    hideTokenSetup();
+    document.getElementById('token-input').value = '';
+  });
+  document.getElementById('btn-token-cancel').addEventListener('click', hideTokenSetup);
+
+  // Si es admin y no tiene token, mostrar setup automáticamente
+  if (isAdmin && !localStorage.getItem('wc2026_pat')) {
+    showTokenSetup();
+  }
+});
 
 // ════════════════════════════════════════════════════════
 // INIT

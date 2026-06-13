@@ -79,7 +79,7 @@ main{max-width:960px;margin:0 auto;padding:1.5rem 1rem 3rem;}
 .score-inputs{display:flex;align-items:center;gap:.8rem;margin-bottom:1.3rem;}
 .score-input{flex:1;display:flex;flex-direction:column;align-items:center;gap:.4rem;}
 .score-input label{font-size:.7rem;color:var(--muted);font-weight:600;letter-spacing:.08em;text-transform:uppercase;}
-.score-input input{width:64px;height:56px;background:#0A0F1E;border:2px solid var(--border);border-radius:10px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:2rem;text-align:center;outline:none;transition:border-color .2s;}
+.score-input input{width:64px;height:56px;min-width:0;background:#0A0F1E;border:2px solid var(--border);border-radius:10px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:2rem;text-align:center;outline:none;transition:border-color .2s;}
 .score-input input:focus{border-color:var(--gold);}
 .score-sep{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--muted);margin-top:18px;}
 .modal-actions{display:flex;gap:.6rem;}
