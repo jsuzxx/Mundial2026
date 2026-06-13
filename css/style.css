@@ -136,6 +136,13 @@ main{max-width:960px;margin:0 auto;padding:1.5rem 1rem 3rem;}
 .admin-toast.ok{border-color:var(--green);color:var(--green);}
 .admin-toast.err{border-color:var(--red);color:var(--red);}
 
+.match-group-badge{grid-column:1/-1;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:-.2rem;}
+
+.btn-live{padding:.7rem .9rem;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:8px;font-weight:600;font-size:.82rem;cursor:pointer;transition:all .2s;}
+.btn-live.active{background:rgba(239,68,68,.15);color:var(--red);border-color:rgba(239,68,68,.5);}
+
+.bracket-3rd-label{font-size:.6rem;color:var(--muted);margin-left:.3rem;}
+
 [data-hidden="true"]{display:none!important;}
 @media(max-width:500px){
   .team-name{font-size:.75rem;}

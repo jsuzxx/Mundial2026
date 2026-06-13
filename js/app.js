@@ -10,46 +10,46 @@ const TEAMS = {
   BIH:{name:'Bosnia-Herz.',flag:'🇧🇦',group:'B'},
   QAT:{name:'Catar',flag:'🇶🇦',group:'B'},
   SUI:{name:'Suiza',flag:'🇨🇭',group:'B'},
-  USA:{name:'Estados Unidos',flag:'🇺🇸',group:'C'},
-  PAR:{name:'Paraguay',flag:'🇵🇾',group:'C'},
-  AUS:{name:'Australia',flag:'🇦🇺',group:'C'},
-  TUR:{name:'Turquía',flag:'🇹🇷',group:'C'},
-  GER:{name:'Alemania',flag:'🇩🇪',group:'D'},
-  CUW:{name:'Curazao',flag:'🇨🇼',group:'D'},
-  NED:{name:'Países Bajos',flag:'🇳🇱',group:'D'},
-  JPN:{name:'Japón',flag:'🇯🇵',group:'D'},
+  BRA:{name:'Brasil',flag:'🇧🇷',group:'C'},
+  MAR:{name:'Marruecos',flag:'🇲🇦',group:'C'},
+  HAI:{name:'Haití',flag:'🇭🇹',group:'C'},
+  SCO:{name:'Escocia',flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',group:'C'},
+  USA:{name:'Estados Unidos',flag:'🇺🇸',group:'D'},
+  PAR:{name:'Paraguay',flag:'🇵🇾',group:'D'},
+  AUS:{name:'Australia',flag:'🇦🇺',group:'D'},
+  TUR:{name:'Turquía',flag:'🇹🇷',group:'D'},
+  GER:{name:'Alemania',flag:'🇩🇪',group:'E'},
+  CUW:{name:'Curazao',flag:'🇨🇼',group:'E'},
   CIV:{name:'Costa de Marfil',flag:'🇨🇮',group:'E'},
   ECU:{name:'Ecuador',flag:'🇪🇨',group:'E'},
-  SWE:{name:'Suecia',flag:'🇸🇪',group:'E'},
-  TUN:{name:'Túnez',flag:'🇹🇳',group:'E'},
-  ESP:{name:'España',flag:'🇪🇸',group:'F'},
-  CPV:{name:'Cabo Verde',flag:'🇨🇻',group:'F'},
-  BEL:{name:'Bélgica',flag:'🇧🇪',group:'F'},
-  EGY:{name:'Egipto',flag:'🇪🇬',group:'F'},
-  KSA:{name:'Arabia Saudita',flag:'🇸🇦',group:'G'},
-  URU:{name:'Uruguay',flag:'🇺🇾',group:'G'},
+  NED:{name:'Países Bajos',flag:'🇳🇱',group:'F'},
+  JPN:{name:'Japón',flag:'🇯🇵',group:'F'},
+  SWE:{name:'Suecia',flag:'🇸🇪',group:'F'},
+  TUN:{name:'Túnez',flag:'🇹🇳',group:'F'},
+  BEL:{name:'Bélgica',flag:'🇧🇪',group:'G'},
+  EGY:{name:'Egipto',flag:'🇪🇬',group:'G'},
   IRN:{name:'Irán',flag:'🇮🇷',group:'G'},
   NZL:{name:'Nueva Zelanda',flag:'🇳🇿',group:'G'},
-  FRA:{name:'Francia',flag:'🇫🇷',group:'H'},
-  SEN:{name:'Senegal',flag:'🇸🇳',group:'H'},
-  IRQ:{name:'Irak',flag:'🇮🇶',group:'H'},
-  NOR:{name:'Noruega',flag:'🇳🇴',group:'H'},
-  ARG:{name:'Argentina',flag:'🇦🇷',group:'I'},
-  ALG:{name:'Argelia',flag:'🇩🇿',group:'I'},
-  AUT:{name:'Austria',flag:'🇦🇹',group:'I'},
-  JOR:{name:'Jordania',flag:'🇯🇴',group:'I'},
-  POR:{name:'Portugal',flag:'🇵🇹',group:'J'},
-  COD:{name:'RD Congo',flag:'🇨🇩',group:'J'},
-  ENG:{name:'Inglaterra',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',group:'J'},
-  CRO:{name:'Croacia',flag:'🇭🇷',group:'J'},
-  GHA:{name:'Ghana',flag:'🇬🇭',group:'K'},
-  PAN:{name:'Panamá',flag:'🇵🇦',group:'K'},
+  ESP:{name:'España',flag:'🇪🇸',group:'H'},
+  CPV:{name:'Cabo Verde',flag:'🇨🇻',group:'H'},
+  KSA:{name:'Arabia Saudita',flag:'🇸🇦',group:'H'},
+  URU:{name:'Uruguay',flag:'🇺🇾',group:'H'},
+  FRA:{name:'Francia',flag:'🇫🇷',group:'I'},
+  SEN:{name:'Senegal',flag:'🇸🇳',group:'I'},
+  IRQ:{name:'Irak',flag:'🇮🇶',group:'I'},
+  NOR:{name:'Noruega',flag:'🇳🇴',group:'I'},
+  ARG:{name:'Argentina',flag:'🇦🇷',group:'J'},
+  ALG:{name:'Argelia',flag:'🇩🇿',group:'J'},
+  AUT:{name:'Austria',flag:'🇦🇹',group:'J'},
+  JOR:{name:'Jordania',flag:'🇯🇴',group:'J'},
+  POR:{name:'Portugal',flag:'🇵🇹',group:'K'},
+  COD:{name:'RD Congo',flag:'🇨🇩',group:'K'},
   UZB:{name:'Uzbekistán',flag:'🇺🇿',group:'K'},
   COL:{name:'Colombia',flag:'🇨🇴',group:'K'},
-  BRA:{name:'Brasil',flag:'🇧🇷',group:'L'},
-  MAR:{name:'Marruecos',flag:'🇲🇦',group:'L'},
-  HAI:{name:'Haití',flag:'🇭🇹',group:'L'},
-  SCO:{name:'Escocia',flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',group:'L'},
+  ENG:{name:'Inglaterra',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',group:'L'},
+  CRO:{name:'Croacia',flag:'🇭🇷',group:'L'},
+  GHA:{name:'Ghana',flag:'🇬🇭',group:'L'},
+  PAN:{name:'Panamá',flag:'🇵🇦',group:'L'},
 };
 
 // Venues: city · stadium
@@ -175,7 +175,6 @@ const GROUPS_DEF = {
 };
 
 // Round of 32 pairings (FIFA 2026 official bracket)
-// Format: [winner/runner-up group, position (1=1st, 2=2nd, 3=3rd-best)]
 const R32_BRACKET = [
   {id:'r01', label:'1A vs 2C', slot1:{g:'A',pos:1}, slot2:{g:'C',pos:2}, date:'28 jun', time:'2:00 p.m.'},
   {id:'r02', label:'1B vs 2D', slot1:{g:'B',pos:1}, slot2:{g:'D',pos:2}, date:'28 jun', time:'5:00 p.m.'},
@@ -189,24 +188,37 @@ const R32_BRACKET = [
   {id:'r10', label:'1J vs 2L', slot1:{g:'J',pos:1}, slot2:{g:'L',pos:2}, date:'1 jul',  time:'2:00 p.m.'},
   {id:'r11', label:'1K vs 2I', slot1:{g:'K',pos:1}, slot2:{g:'I',pos:2}, date:'1 jul',  time:'5:00 p.m.'},
   {id:'r12', label:'1L vs 2J', slot1:{g:'L',pos:1}, slot2:{g:'J',pos:2}, date:'1 jul',  time:'8:00 p.m.'},
-  // 3rd-place slots (best 8 of 12)
-  {id:'r13', label:'Mejor 3º (1)', slot1:{g:'?',pos:3}, slot2:{g:'?',pos:3}, date:'2 jul',  time:'2:00 p.m.'},
-  {id:'r14', label:'Mejor 3º (2)', slot1:{g:'?',pos:3}, slot2:{g:'?',pos:3}, date:'2 jul',  time:'5:00 p.m.'},
-  {id:'r15', label:'Mejor 3º (3)', slot1:{g:'?',pos:3}, slot2:{g:'?',pos:3}, date:'2 jul',  time:'8:00 p.m.'},
-  {id:'r16', label:'Mejor 3º (4)', slot1:{g:'?',pos:3}, slot2:{g:'?',pos:3}, date:'3 jul',  time:'2:00 p.m.'},
-  {id:'r17', label:'Mejor 3º (5)', slot1:{g:'?',pos:3}, slot2:{g:'?',pos:3}, date:'3 jul',  time:'5:00 p.m.'},
-  {id:'r18', label:'Mejor 3º (6)', slot1:{g:'?',pos:3}, slot2:{g:'?',pos:3}, date:'3 jul',  time:'8:00 p.m.'},
-  {id:'r19', label:'Mejor 3º (7)', slot1:{g:'?',pos:3}, slot2:{g:'?',pos:3}, date:'3 jul',  time:'2:00 p.m.'},
-  {id:'r20', label:'Mejor 3º (8)', slot1:{g:'?',pos:3}, slot2:{g:'?',pos:3}, date:'3 jul',  time:'5:00 p.m.'},
+  // 3rd-place slots (best 8 of 12 advance)
+  {id:'r13', label:'Mejor 3º (1)', slot1:{g:'?',pos:3}, slot2:{g:'?',pos:3}, date:'2 jul', time:'2:00 p.m.'},
+  {id:'r14', label:'Mejor 3º (2)', slot1:{g:'?',pos:3}, slot2:{g:'?',pos:3}, date:'2 jul', time:'5:00 p.m.'},
+  {id:'r15', label:'Mejor 3º (3)', slot1:{g:'?',pos:3}, slot2:{g:'?',pos:3}, date:'2 jul', time:'8:00 p.m.'},
+  {id:'r16', label:'Mejor 3º (4)', slot1:{g:'?',pos:3}, slot2:{g:'?',pos:3}, date:'3 jul', time:'2:00 p.m.'},
 ];
 
-const KNOCKOUT_ROUNDS = [
-  {id:'r32',  label:'Dieciseisavos', dates:'28 jun – 3 jul',  teams:32},
-  {id:'r16',  label:'Octavos de Final', dates:'4 – 7 jul',   teams:16},
-  {id:'qf',   label:'Cuartos de Final', dates:'9 – 12 jul',  teams:8},
-  {id:'sf',   label:'Semifinales',   dates:'14 – 15 jul',    teams:4},
-  {id:'3rd',  label:'Tercer Puesto', dates:'Sáb 18 jul',     teams:2},
-  {id:'final',label:'Gran Final',    dates:'Dom 19 jul',      teams:2},
+// Knockout rounds: octavos, cuartos, semis, tercero, final
+// slot.from = match ID whose winner (w:true) or loser (w:false) advances here
+const KO_ROUNDS = [
+  // Round of 16
+  {id:'k01',round:'r16',label:'Octavos 1', date:'4 jul', time:'2:00 p.m.', slot1:{from:'r01',w:true}, slot2:{from:'r02',w:true}},
+  {id:'k02',round:'r16',label:'Octavos 2', date:'4 jul', time:'6:00 p.m.', slot1:{from:'r03',w:true}, slot2:{from:'r04',w:true}},
+  {id:'k03',round:'r16',label:'Octavos 3', date:'5 jul', time:'2:00 p.m.', slot1:{from:'r05',w:true}, slot2:{from:'r06',w:true}},
+  {id:'k04',round:'r16',label:'Octavos 4', date:'5 jul', time:'6:00 p.m.', slot1:{from:'r07',w:true}, slot2:{from:'r08',w:true}},
+  {id:'k05',round:'r16',label:'Octavos 5', date:'6 jul', time:'2:00 p.m.', slot1:{from:'r09',w:true}, slot2:{from:'r10',w:true}},
+  {id:'k06',round:'r16',label:'Octavos 6', date:'6 jul', time:'6:00 p.m.', slot1:{from:'r11',w:true}, slot2:{from:'r12',w:true}},
+  {id:'k07',round:'r16',label:'Octavos 7', date:'7 jul', time:'2:00 p.m.', slot1:{from:'r13',w:true}, slot2:{from:'r14',w:true}},
+  {id:'k08',round:'r16',label:'Octavos 8', date:'7 jul', time:'6:00 p.m.', slot1:{from:'r15',w:true}, slot2:{from:'r16',w:true}},
+  // Quarterfinals
+  {id:'k09',round:'qf', label:'Cuartos 1', date:'9 jul',  time:'2:00 p.m.', slot1:{from:'k01',w:true}, slot2:{from:'k02',w:true}},
+  {id:'k10',round:'qf', label:'Cuartos 2', date:'9 jul',  time:'6:00 p.m.', slot1:{from:'k03',w:true}, slot2:{from:'k04',w:true}},
+  {id:'k11',round:'qf', label:'Cuartos 3', date:'10 jul', time:'2:00 p.m.', slot1:{from:'k05',w:true}, slot2:{from:'k06',w:true}},
+  {id:'k12',round:'qf', label:'Cuartos 4', date:'10 jul', time:'6:00 p.m.', slot1:{from:'k07',w:true}, slot2:{from:'k08',w:true}},
+  // Semifinals
+  {id:'k13',round:'sf',  label:'Semifinal 1', date:'14 jul', time:'2:00 p.m.', slot1:{from:'k09',w:true}, slot2:{from:'k10',w:true}},
+  {id:'k14',round:'sf',  label:'Semifinal 2', date:'15 jul', time:'6:00 p.m.', slot1:{from:'k11',w:true}, slot2:{from:'k12',w:true}},
+  // Third place
+  {id:'k15',round:'3rd', label:'Tercer Puesto', date:'18 jul', time:'2:00 p.m.', slot1:{from:'k13',w:false}, slot2:{from:'k14',w:false}},
+  // Final
+  {id:'k16',round:'final',label:'Gran Final 🏆', date:'19 jul', time:'3:00 p.m.', slot1:{from:'k13',w:true}, slot2:{from:'k14',w:true}},
 ];
 
 const DAYS_ES=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
@@ -214,11 +226,8 @@ const MONTHS_ES=['enero','febrero','marzo','abril','mayo','junio','julio'];
 
 // ════════════════════════════════════════════════════════
 // ADMIN MODE
-// Contraseña de la URL: cambia ADMIN_KEY a cualquier palabra secreta.
-// Para activar: visita la app con ?key=TU_PALABRA en la URL.
-// La sesión queda guardada en este navegador hasta que cierres la pestaña.
 // ════════════════════════════════════════════════════════
-const ADMIN_KEY = 'colombia2026'; // ← CAMBIA ESTO A TU PALABRA SECRETA
+const ADMIN_KEY = 'colombia2026';
 
 let isAdmin = false;
 (function() {
@@ -234,8 +243,7 @@ let isAdmin = false;
 })();
 
 // ════════════════════════════════════════════════════════
-// SYNC  —  todos leen results.json via GitHub API (sin caché CDN)
-//          el admin escribe en ese mismo archivo via GitHub API
+// SYNC
 // ════════════════════════════════════════════════════════
 const GH_OWNER  = 'jsuzxx';
 const GH_REPO   = 'Mundial2026';
@@ -243,7 +251,7 @@ const GH_BRANCH = 'main';
 const API_FILE  = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/results.json`;
 const CACHE_KEY = 'wc2026_results';
 const CACHE_TS  = 'wc2026_ts';
-const CACHE_TTL = 30 * 1000; // 30 segundos
+const CACHE_TTL = 30 * 1000;
 
 let results   = {};
 let syncState = 'loading';
@@ -257,7 +265,6 @@ function updateSyncUI(msg) {
   txt.textContent = msg || { loading:'Cargando...', ok:'Resultados al día', err:'Sin conexión', saving:'Guardando en GitHub...', saved:'Guardado ✓' }[syncState] || '';
 }
 
-// Toast visible para el admin
 function toast(msg, type = 'ok') {
   let el = document.getElementById('admin-toast');
   if (!el) {
@@ -272,12 +279,10 @@ function toast(msg, type = 'ok') {
   el._t = setTimeout(() => { el.style.opacity = '0'; }, 3500);
 }
 
-// Leer results.json via GitHub Contents API (nunca cacheado por CDN)
 async function ghGet() {
   const headers = { Accept: 'application/vnd.github+json' };
   const pat = localStorage.getItem('wc2026_pat');
   if (pat) headers.Authorization = `Bearer ${pat}`;
-
   const r = await fetch(API_FILE, { headers });
   if (!r.ok) throw new Error('HTTP ' + r.status);
   const meta = await r.json();
@@ -305,6 +310,7 @@ async function fetchResults(force = false) {
     if (data._updated) {
       const ago = Math.round((Date.now() - new Date(data._updated).getTime()) / 60000);
       updateSyncUI(`Actualizado hace ${ago < 1 ? 'menos de 1' : ago} min`);
+      refresh(); // ← bug fix: siempre actualizar pantalla tras fetch exitoso
       return;
     }
   } catch(e) {
@@ -320,16 +326,12 @@ async function saveToGitHub() {
 
   syncState = 'saving'; updateSyncUI();
   try {
-    // Siempre obtener SHA fresco — nunca cachear entre guardados
     const { sha } = await ghGet();
-
     const payload = { ...results };
     delete payload._updated;
     payload._updated = new Date().toISOString();
-
     const body = JSON.stringify(payload, null, 2);
     const content = btoa(unescape(encodeURIComponent(body)));
-
     const put = await fetch(API_FILE, {
       method: 'PUT',
       headers: {
@@ -339,32 +341,25 @@ async function saveToGitHub() {
       },
       body: JSON.stringify({ message: 'chore: actualizar resultados', content, sha, branch: GH_BRANCH }),
     });
-
     if (!put.ok) {
       const errData = await put.json().catch(() => ({}));
       throw new Error(errData.message || `HTTP ${put.status}`);
     }
-
-    // Actualizar caché local con los datos recién guardados
     localStorage.setItem(CACHE_KEY, JSON.stringify(payload));
     localStorage.setItem(CACHE_TS, String(Date.now()));
     results = payload;
-
     syncState = 'saved'; updateSyncUI();
     toast('✅ Guardado. Todos verán el resultado en segundos.');
     setTimeout(() => { syncState = 'ok'; updateSyncUI(); }, 3000);
     return true;
-
   } catch(e) {
     syncState = 'ok'; updateSyncUI();
     const msg = e.message || String(e);
     console.error('[GitHub save]', msg);
-
     if (msg.includes('401') || msg.includes('Bad credentials') || msg.includes('403')) {
       localStorage.removeItem('wc2026_pat');
       showTokenSetup('Tu clave de GitHub venció o es inválida. Ingresa una nueva.');
     } else if (msg.includes('409') || msg.includes('conflict')) {
-      // SHA desincronizado — reintentar una vez con SHA fresco
       toast('⚠️ Conflicto de versión. Reintentando...', 'err');
       return saveToGitHub();
     } else {
@@ -374,7 +369,6 @@ async function saveToGitHub() {
   }
 }
 
-// Refrescar cada 30 segundos
 setInterval(() => fetchResults(true), 30 * 1000);
 
 // ════════════════════════════════════════════════════════
@@ -414,12 +408,40 @@ function calcStandings() {
   return s;
 }
 
+// Head-to-head mini-table for a subset of teams (FIFA tiebreaker step 4-6)
+function calcH2H(teamCodes) {
+  const s = {};
+  teamCodes.forEach(k => { s[k] = { pts:0, gf:0, gc:0 }; });
+  MATCHES.forEach(m => {
+    if (!teamCodes.includes(m.home) || !teamCodes.includes(m.away)) return;
+    const r = results[m.id];
+    if (!r || r.home===null || r.away===null) return;
+    const {home:gh, away:ga} = r;
+    s[m.home].gf+=gh; s[m.home].gc+=ga;
+    s[m.away].gf+=ga; s[m.away].gc+=gh;
+    if (gh>ga) s[m.home].pts+=3;
+    else if (gh<ga) s[m.away].pts+=3;
+    else { s[m.home].pts++; s[m.away].pts++; }
+  });
+  return s;
+}
+
 function sortGroup(members, standings) {
-  return members.map(k => standings[k]).sort((a,b) => {
+  return members.map(k => ({...standings[k]})).sort((a, b) => {
+    // 1. Points
     if (b.pts !== a.pts) return b.pts - a.pts;
-    const gdA = a.gf-a.gc, gdB = b.gf-b.gc;
-    if (gdB !== gdA) return gdB - gdA;
-    return b.gf - a.gf;
+    // 2. Goal difference
+    const gdDiff = (b.gf - b.gc) - (a.gf - a.gc);
+    if (gdDiff !== 0) return gdDiff;
+    // 3. Goals scored
+    if (b.gf !== a.gf) return b.gf - a.gf;
+    // 4-6. Head-to-head (FIFA tiebreaker)
+    const h2h = calcH2H([a.code, b.code]);
+    const ha = h2h[a.code], hb = h2h[b.code];
+    if (hb.pts !== ha.pts) return hb.pts - ha.pts;
+    const h2hGd = (hb.gf - hb.gc) - (ha.gf - ha.gc);
+    if (h2hGd !== 0) return h2hGd;
+    return hb.gf - ha.gf;
   });
 }
 
@@ -427,28 +449,67 @@ function getGroupTable(groupCode) {
   return sortGroup(GROUPS_DEF[groupCode], calcStandings());
 }
 
-// Returns {code, groupCode, pos, pts, gd, gf} for all 3rd-place teams, sorted
 function getBest3rds() {
   const st = calcStandings();
   return Object.entries(GROUPS_DEF).map(([g, members]) => {
     const sorted = sortGroup(members, st);
-    const row = sorted[2]; // 3rd place
+    const row = sorted[2];
     return { ...row, groupCode: g, pos: 3 };
-  }).sort((a,b) => {
+  }).sort((a, b) => {
     if (b.pts !== a.pts) return b.pts - a.pts;
-    const gdA = a.gf-a.gc, gdB = b.gf-b.gc;
-    if (gdB !== gdA) return gdB - gdA;
+    const gdDiff = (b.gf - b.gc) - (a.gf - a.gc);
+    if (gdDiff !== 0) return gdDiff;
     return b.gf - a.gf;
   });
 }
 
-// Resolve a bracket slot to a team code (or null if not yet determined)
 function resolveSlot(slot) {
-  const st = calcStandings();
   if (slot.pos === 3 && slot.g === '?') return null;
-  const sorted = sortGroup(GROUPS_DEF[slot.g], st);
+  const sorted = sortGroup(GROUPS_DEF[slot.g], calcStandings());
   const row = sorted[slot.pos - 1];
   return row ? row.code : null;
+}
+
+// Returns {home, away} team codes for ANY match id (group, R32, or KO)
+function getAllMatchTeams(id) {
+  // Group stage
+  const gm = MATCHES.find(x => x.id === id);
+  if (gm) return { home: gm.home, away: gm.away };
+
+  // R32 pairings (r01-r12)
+  const r32 = R32_BRACKET.slice(0, 12).find(x => x.id === id);
+  if (r32) return { home: resolveSlot(r32.slot1), away: resolveSlot(r32.slot2) };
+
+  // R32 best-3rd matches (r13-r16)
+  const thirdIds = ['r13','r14','r15','r16'];
+  const ti = thirdIds.indexOf(id);
+  if (ti >= 0) {
+    const b3 = getBest3rds();
+    return {
+      home: b3[ti*2]   ? b3[ti*2].code   : null,
+      away: b3[ti*2+1] ? b3[ti*2+1].code : null,
+    };
+  }
+
+  // KO rounds (k01-k16)
+  const ko = KO_ROUNDS.find(x => x.id === id);
+  if (ko) return { home: resolveKOSlot(ko.slot1), away: resolveKOSlot(ko.slot2) };
+
+  return { home: null, away: null };
+}
+
+// Resolves a KO slot to a team code based on previous match results
+function resolveKOSlot(slot) {
+  const r = results[slot.from];
+  if (!r || r.home === null || r.away === null) return null;
+  const teams = getAllMatchTeams(slot.from);
+  if (r.home > r.away) return slot.w ? teams.home : teams.away;
+  if (r.away > r.home) return slot.w ? teams.away : teams.home;
+  return null; // draw (needs penalty/ET decision)
+}
+
+function getMatchGroup(match) {
+  return TEAMS[match.home]?.group || null;
 }
 
 // ════════════════════════════════════════════════════════
@@ -479,10 +540,12 @@ function renderMatches(filter) {
       const awayWin = hasResult && r.away > r.home;
       const v = VENUES[m.venue];
       const venueStr = v ? `📍 ${v.city} · ${v.stadium}` : '';
+      const grp = getMatchGroup(m);
 
       const isLive = hasResult && r.live;
       const cardClass = `match-card${isToday?' today-match':''}${hasResult&&!isLive?' finished':''}${isLive?' live-match':''}`;
       html += `<div class="${cardClass}" data-id="${m.id}">
+        ${grp ? `<div class="match-group-badge">Grupo ${grp}</div>` : ''}
         <div class="team">
           <span class="flag">${ht.flag}</span>
           <span class="team-name${homeWin?' winner':''}">${ht.name}</span>
@@ -543,19 +606,38 @@ function renderGroups() {
 // ════════════════════════════════════════════════════════
 // RENDER KNOCKOUT BRACKET
 // ════════════════════════════════════════════════════════
-function teamSlot(code) {
-  if (!code) return `<span class="tbd">Por definir</span>`;
-  const t = TEAMS[code];
-  return `<span class="flag-sm">${t.flag}</span> ${t.name}`;
+function bracketCard(id, t1Code, t2Code, date, time, label1, label2, isFinal) {
+  const r = results[id];
+  const hasR = r && r.home !== null && r.away !== null;
+  const w1 = hasR && r.home > r.away;
+  const w2 = hasR && r.away > r.home;
+  const isLive = hasR && r.live;
+
+  const t1 = t1Code ? TEAMS[t1Code] : null;
+  const t2 = t2Code ? TEAMS[t2Code] : null;
+
+  const slot1Html = `<span class="flag-sm">${t1 ? t1.flag : '🔷'}</span> ${t1 ? t1.name : (label1 || 'Por definir')}
+    ${label1 && t1 ? `<span class="bracket-3rd-label">${label1}</span>` : ''}
+    ${hasR ? `<span class="bracket-score">${r.home}</span>` : ''}`;
+  const slot2Html = `<span class="flag-sm">${t2 ? t2.flag : '🔷'}</span> ${t2 ? t2.name : (label2 || 'Por definir')}
+    ${label2 && t2 ? `<span class="bracket-3rd-label">${label2}</span>` : ''}
+    ${hasR ? `<span class="bracket-score">${r.away}</span>` : ''}`;
+
+  return `<div class="bracket-card${isFinal ? ' final' : ''}">
+    <div class="bracket-slot${w1 ? ' winner-slot' : ''}">${slot1Html}</div>
+    <div class="bracket-divider"></div>
+    <div class="bracket-slot${w2 ? ' winner-slot' : ''}">${slot2Html}</div>
+    <div class="bracket-meta">
+      <span>${date} · ${time}</span>
+      ${isLive ? '<span class="live-badge">EN VIVO</span>' : ''}
+      ${hasR && !isLive ? '<span class="ft-badge">FT</span>' : ''}
+    </div>
+    ${isAdmin ? `<button class="edit-btn" onclick="openModal('${id}')" title="Editar resultado">✏️</button>` : ''}
+  </div>`;
 }
 
 function renderKnockout() {
-  const st = calcStandings();
   const best3 = getBest3rds();
-
-  // Build 3rd-place teams list (best 8 of 12)
-  const top8thirds = best3.slice(0, 8);
-
   let html = '';
 
   // Round of 32
@@ -563,96 +645,114 @@ function renderKnockout() {
     <div class="bracket-round-title">Dieciseisavos · 28 jun – 3 jul</div>
     <div class="bracket-matches">`;
 
-  // First 12: group 1st vs 2nd pairings
   R32_BRACKET.slice(0, 12).forEach(m => {
     const t1 = resolveSlot(m.slot1);
     const t2 = resolveSlot(m.slot2);
-    const r = results[m.id];
-    const hasR = r && r.home!==null && r.away!==null;
-    const w1 = hasR && r.home > r.away;
-    const w2 = hasR && r.away > r.home;
-    html += `<div class="bracket-card">
-      <div class="bracket-slot${w1?' winner-slot':''}">${teamSlot(t1)}${hasR?`<span class="bracket-score">${r.home}</span>`:''}</div>
-      <div class="bracket-divider"></div>
-      <div class="bracket-slot${w2?' winner-slot':''}">${teamSlot(t2)}${hasR?`<span class="bracket-score">${r.away}</span>`:''}</div>
-      <div class="bracket-meta"><span>${m.date} · ${m.time}</span></div>
-    </div>`;
+    html += bracketCard(m.id, t1, t2, m.date, m.time);
   });
 
-  // 3rd-place slots
-  top8thirds.forEach((row, i) => {
-    const opp = top8thirds[i % 2 === 0 ? i+1 : i-1];
-    if (i % 2 !== 0) return; // render pairs
-    const t1 = row ? row.code : null;
-    const t2 = opp ? opp.code : null;
-    const info = R32_BRACKET[12 + Math.floor(i/2)];
-    html += `<div class="bracket-card">
-      <div class="bracket-slot">${teamSlot(t1)}${t1?`<span style="font-size:.6rem;color:var(--muted);margin-left:.3rem">3°${row.groupCode}</span>`:''}</div>
-      <div class="bracket-divider"></div>
-      <div class="bracket-slot">${teamSlot(t2)}${t2?`<span style="font-size:.6rem;color:var(--muted);margin-left:.3rem">3°${opp.groupCode}</span>`:''}</div>
-      <div class="bracket-meta"><span>${info ? info.date+' · '+info.time : '2–3 jul'}</span></div>
-    </div>`;
+  // Best-3rd matches (r13-r16, 4 matches)
+  const thirdIds = ['r13','r14','r15','r16'];
+  thirdIds.forEach((rid, i) => {
+    const t1row = best3[i*2];
+    const t2row = best3[i*2+1];
+    const t1 = t1row ? t1row.code : null;
+    const t2 = t2row ? t2row.code : null;
+    const info = R32_BRACKET.find(x => x.id === rid);
+    const l1 = t1row ? `3°${t1row.groupCode}` : '';
+    const l2 = t2row ? `3°${t2row.groupCode}` : '';
+    html += bracketCard(rid, t1, t2, info.date, info.time, l1, l2);
   });
 
   html += '</div></div>';
 
-  // Remaining rounds (placeholder cards)
-  const laterRounds = [
-    {label:'Octavos de Final', dates:'4 – 7 jul', n:8},
-    {label:'Cuartos de Final', dates:'9 – 12 jul', n:4},
-    {label:'Semifinales', dates:'14 – 15 jul', n:2},
-    {label:'Tercer Puesto', dates:'Sáb 18 jul', n:1},
-    {label:'Gran Final 🏆', dates:'Dom 19 jul', n:1, isFinal:true},
-  ];
-
-  laterRounds.forEach(round => {
-    html += `<div class="bracket-round">
-      <div class="bracket-round-title">${round.label} · ${round.dates}</div>
-      <div class="bracket-matches">`;
-    for (let i=0; i<round.n; i++) {
-      html += `<div class="bracket-card${round.isFinal?' final':''}">
-        <div class="bracket-slot"><span class="tbd">Por definir</span></div>
-        <div class="bracket-divider"></div>
-        <div class="bracket-slot"><span class="tbd">Por definir</span></div>
-      </div>`;
-    }
-    html += '</div></div>';
+  // Round of 16
+  html += `<div class="bracket-round">
+    <div class="bracket-round-title">Octavos de Final · 4 – 7 jul</div>
+    <div class="bracket-matches">`;
+  KO_ROUNDS.filter(m => m.round === 'r16').forEach(m => {
+    html += bracketCard(m.id, resolveKOSlot(m.slot1), resolveKOSlot(m.slot2), m.date, m.time);
   });
+  html += '</div></div>';
+
+  // Quarterfinals
+  html += `<div class="bracket-round">
+    <div class="bracket-round-title">Cuartos de Final · 9 – 12 jul</div>
+    <div class="bracket-matches">`;
+  KO_ROUNDS.filter(m => m.round === 'qf').forEach(m => {
+    html += bracketCard(m.id, resolveKOSlot(m.slot1), resolveKOSlot(m.slot2), m.date, m.time);
+  });
+  html += '</div></div>';
+
+  // Semifinals
+  html += `<div class="bracket-round">
+    <div class="bracket-round-title">Semifinales · 14 – 15 jul</div>
+    <div class="bracket-matches">`;
+  KO_ROUNDS.filter(m => m.round === 'sf').forEach(m => {
+    html += bracketCard(m.id, resolveKOSlot(m.slot1), resolveKOSlot(m.slot2), m.date, m.time);
+  });
+  html += '</div></div>';
+
+  // Third place + Final
+  html += `<div class="bracket-round">
+    <div class="bracket-round-title">Final · 18 – 19 jul</div>
+    <div class="bracket-matches">`;
+  KO_ROUNDS.filter(m => m.round === '3rd' || m.round === 'final').forEach(m => {
+    html += bracketCard(m.id, resolveKOSlot(m.slot1), resolveKOSlot(m.slot2), m.date, m.time, '', '', m.round === 'final');
+  });
+  html += '</div></div>';
 
   document.getElementById('knockout-container').innerHTML = html;
 }
 
 // ════════════════════════════════════════════════════════
-// MODAL (local edit — for repo owner use)
+// MODAL
 // ════════════════════════════════════════════════════════
 let activeMatchId = null;
+let liveState = false;
+
+function updateLiveBtn() {
+  const btn = document.getElementById('btn-live');
+  if (!btn) return;
+  btn.textContent = liveState ? '🔴 En vivo' : '⚪ En vivo';
+  btn.className = 'btn-live' + (liveState ? ' active' : '');
+}
 
 function openModal(id) {
   activeMatchId = id;
-  const m = MATCHES.find(x => x.id === id);
-  const ht = TEAMS[m.home], at = TEAMS[m.away];
-  const r = results[id] || {home:null, away:null};
+  const { home: homeCode, away: awayCode } = getAllMatchTeams(id);
+  const ht = homeCode ? TEAMS[homeCode] : { name: 'Por definir', flag: '🔷' };
+  const at = awayCode ? TEAMS[awayCode] : { name: 'Por definir', flag: '🔷' };
+  const r = results[id] || {};
+
+  liveState = r.live || false;
+  updateLiveBtn();
 
   document.getElementById('modal-teams').innerHTML = `
     <div class="modal-team"><div class="flag">${ht.flag}</div><div class="name">${ht.name}</div></div>
     <div class="modal-sep">VS</div>
     <div class="modal-team"><div class="flag">${at.flag}</div><div class="name">${at.name}</div></div>`;
 
-  document.getElementById('lbl-home').textContent = ht.name;
-  document.getElementById('lbl-away').textContent = at.name;
-  document.getElementById('inp-home').value = r.home !== null ? r.home : '';
-  document.getElementById('inp-away').value = r.away !== null ? r.away : '';
+  document.getElementById('lbl-home').textContent = homeCode ? ht.name : 'Local';
+  document.getElementById('lbl-away').textContent = awayCode ? at.name : 'Visitante';
+  document.getElementById('inp-home').value = (r.home !== null && r.home !== undefined) ? r.home : '';
+  document.getElementById('inp-away').value = (r.away !== null && r.away !== undefined) ? r.away : '';
   document.getElementById('modal').style.display = 'flex';
   setTimeout(() => document.getElementById('inp-home').focus(), 100);
 }
 
 function closeModal() { document.getElementById('modal').style.display='none'; activeMatchId=null; }
 
+document.getElementById('btn-live').onclick = () => {
+  liveState = !liveState;
+  updateLiveBtn();
+};
+
 document.getElementById('btn-save').onclick = async () => {
   const h = document.getElementById('inp-home').value;
   const a = document.getElementById('inp-away').value;
   if (h === '' || a === '') return;
-  results[activeMatchId] = { home: parseInt(h), away: parseInt(a) };
+  results[activeMatchId] = { home: parseInt(h), away: parseInt(a), live: liveState };
   closeModal(); refresh();
   await saveToGitHub();
 };
@@ -724,7 +824,7 @@ function buildBanner() {
 function refresh() { applyFilter(); }
 
 // ════════════════════════════════════════════════════════
-// SETUP TOKEN MODAL  (solo admin, primera vez o token vencido)
+// SETUP TOKEN MODAL
 // ════════════════════════════════════════════════════════
 function showTokenSetup(msg = '') {
   const overlay = document.getElementById('token-setup-overlay');
@@ -742,13 +842,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const val = document.getElementById('token-input').value.trim();
     if (!val) return;
     localStorage.setItem('wc2026_pat', val);
-    _fileSha = null; // forzar re-lectura del SHA
     hideTokenSetup();
     document.getElementById('token-input').value = '';
   });
   document.getElementById('btn-token-cancel').addEventListener('click', hideTokenSetup);
 
-  // Si es admin y no tiene token, mostrar setup automáticamente
   if (isAdmin && !localStorage.getItem('wc2026_pat')) {
     showTokenSetup();
   }
