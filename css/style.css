@@ -46,6 +46,10 @@ main{max-width:960px;margin:0 auto;padding:1.5rem 1rem 3rem;}
 .match-card.today-match{border-color:var(--green);background:linear-gradient(135deg,#111827,#0d2218);}
 .match-card.finished{border-color:rgba(255,255,255,.12);}
 .match-card.finished .vs{display:none;}
+.match-card.live-match{border-color:var(--red);background:linear-gradient(135deg,#111827,#1a0d0d);animation:live-pulse 2s infinite;}
+.match-card.live-match .vs{display:none;}
+@keyframes live-pulse{0%,100%{border-color:var(--red);}50%{border-color:rgba(239,68,68,.4);}}
+.live-badge{font-size:.6rem;font-weight:700;letter-spacing:.1em;color:var(--red);text-transform:uppercase;animation:live-pulse 1s infinite;}
 .match-venue{grid-column:1/-1;font-size:.66rem;color:var(--muted);text-align:center;margin-top:.1rem;letter-spacing:.03em;}
 .match-venue span{color:rgba(139,149,169,.7);}
 

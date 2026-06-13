@@ -213,43 +213,81 @@ const DAYS_ES=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sába
 const MONTHS_ES=['enero','febrero','marzo','abril','mayo','junio','julio'];
 
 // ════════════════════════════════════════════════════════
-// CLOUD SYNC  (GitHub raw results.json — read-only for visitors)
+// ADMIN MODE  (solo el dueño del repo ve botones de edición)
+// Activar: añadir ?admin=1 a la URL, o hacer clic 7 veces en el trofeo
 // ════════════════════════════════════════════════════════
-const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/jsuzxx/Mundial2026/main/results.json';
-const CACHE_KEY = 'wc2026_results';
-const CACHE_TS_KEY = 'wc2026_results_ts';
-const CACHE_TTL = 60 * 1000; // 1 minuto
+let isAdmin = new URLSearchParams(location.search).has('admin');
+let _trophyClicks = 0;
+document.addEventListener('DOMContentLoaded', () => {
+  const trophy = document.querySelector('.trophy');
+  if (!trophy) return;
+  trophy.style.cursor = 'default';
+  trophy.addEventListener('click', () => {
+    if (++_trophyClicks >= 7) {
+      isAdmin = true; _trophyClicks = 0;
+      trophy.textContent = '🏆🔑';
+      setTimeout(() => { trophy.textContent = '🏆'; }, 1500);
+      refresh();
+    }
+  });
+});
 
-let results = {};
-let syncState = 'loading'; // loading | ok | err | cached
+// ════════════════════════════════════════════════════════
+// SYNC  — lee results.json publicado por GitHub Actions cada 5 min
+// El token de la API nunca toca el cliente; lo usa el bot en el servidor.
+// ════════════════════════════════════════════════════════
+const RESULTS_URL  = 'https://raw.githubusercontent.com/jsuzxx/Mundial2026/main/results.json';
+const CACHE_KEY    = 'wc2026_results';
+const CACHE_TS_KEY = 'wc2026_results_ts';
+const CACHE_TTL    = 5 * 60 * 1000; // 5 minutos (sincronizado con el cron del bot)
+
+let results   = {};
+let syncState = 'loading';
 
 function updateSyncUI() {
   const dot = document.getElementById('sync-dot');
   const txt = document.getElementById('sync-txt');
   if (!dot || !txt) return;
   dot.className = 'sync-dot ' + syncState;
-  const labels = { loading:'Sincronizando...', ok:'Resultados actualizados', err:'Sin conexión · usando caché', cached:'Caché local' };
+  const labels = {
+    loading: 'Sincronizando...',
+    ok:      'En vivo · actualizado automáticamente',
+    err:     'Sin conexión · usando caché',
+    cached:  'Desde caché local',
+  };
   txt.textContent = labels[syncState] || '';
 }
 
 async function fetchResults() {
-  // Use cache if fresh
+  // Usar caché local si todavía es fresca
   const ts = parseInt(localStorage.getItem(CACHE_TS_KEY) || '0');
   if (Date.now() - ts < CACHE_TTL) {
-    try { results = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}'); syncState = 'cached'; updateSyncUI(); refresh(); return; } catch(e){}
+    try {
+      results = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
+      syncState = 'cached'; updateSyncUI(); refresh(); return;
+    } catch(e) {}
   }
 
   syncState = 'loading'; updateSyncUI();
   try {
-    const res = await fetch(GITHUB_RAW_URL + '?t=' + Date.now());
+    // cache-bust para que GitHub no devuelva el CDN cacheado
+    const res = await fetch(RESULTS_URL + '?t=' + Date.now());
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     results = data;
     localStorage.setItem(CACHE_KEY, JSON.stringify(data));
     localStorage.setItem(CACHE_TS_KEY, String(Date.now()));
+    // Mostrar timestamp de última actualización del bot
+    if (data._updated) {
+      const ago = Math.round((Date.now() - new Date(data._updated).getTime()) / 60000);
+      const dot = document.getElementById('sync-dot');
+      const txt = document.getElementById('sync-txt');
+      if (txt) txt.textContent = `Actualizado hace ${ago < 1 ? 'menos de 1' : ago} min`;
+      if (dot) dot.className = 'sync-dot ok';
+    }
     syncState = 'ok';
   } catch(e) {
-    // Fall back to local cache
+    console.warn('[Sync] Fallo, usando caché:', e.message);
     try { results = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}'); } catch(_) { results = {}; }
     syncState = 'err';
   }
@@ -257,8 +295,8 @@ async function fetchResults() {
   refresh();
 }
 
-// Auto-refresh every 60 seconds
-setInterval(fetchResults, 60000);
+// Refrescar cada 5 minutos (coincide con el cron del bot)
+setInterval(fetchResults, 5 * 60 * 1000);
 
 // ════════════════════════════════════════════════════════
 // DATE UTILS
@@ -363,7 +401,8 @@ function renderMatches(filter) {
       const v = VENUES[m.venue];
       const venueStr = v ? `📍 ${v.city} · ${v.stadium}` : '';
 
-      const cardClass = `match-card${isToday?' today-match':''}${hasResult?' finished':''}`;
+      const isLive = hasResult && r.live;
+      const cardClass = `match-card${isToday?' today-match':''}${hasResult&&!isLive?' finished':''}${isLive?' live-match':''}`;
       html += `<div class="${cardClass}" data-id="${m.id}">
         <div class="team">
           <span class="flag">${ht.flag}</span>
@@ -371,14 +410,15 @@ function renderMatches(filter) {
         </div>
         <div class="match-center">
           <span class="vs">VS</span>
-          ${hasResult ? `<span class="score-display">${r.home} – ${r.away}</span><span class="ft-badge">FT</span>` : ''}
+          ${isLive  ? `<span class="score-display">${r.home} – ${r.away}</span><span class="live-badge">EN VIVO</span>` : ''}
+          ${hasResult && !isLive ? `<span class="score-display">${r.home} – ${r.away}</span><span class="ft-badge">FT</span>` : ''}
           <span class="match-time">${m.time}</span>
         </div>
         <div class="team right">
           <span class="team-name${awayWin?' winner':''}">${at.name}</span>
           <span class="flag">${at.flag}</span>
         </div>
-        <button class="edit-btn" onclick="openModal('${m.id}')" title="Editar resultado">✏️</button>
+        ${isAdmin ? `<button class="edit-btn" onclick="openModal('${m.id}')" title="Editar resultado">✏️</button>` : ''}
         ${venueStr ? `<div class="match-venue"><span>${venueStr}</span></div>` : ''}
       </div>`;
     }
