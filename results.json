@@ -25,5 +25,10 @@
     "away": 1,
     "live": false
   },
-  "_updated": "2026-06-14T00:08:07.139Z"
+  "m07": {
+    "home": 0,
+    "away": 1,
+    "live": false
+  },
+  "_updated": "2026-06-14T16:13:22.727Z"
 }
