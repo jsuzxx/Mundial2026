@@ -50,5 +50,10 @@
     "away": 0,
     "live": false
   },
-  "_updated": "2026-06-15T01:01:29.391Z"
+  "m12": {
+    "home": 1,
+    "away": 0,
+    "live": true
+  },
+  "_updated": "2026-06-15T02:10:23.819Z"
 }
