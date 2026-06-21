@@ -150,5 +150,10 @@
     "away": 0,
     "live": false
   },
-  "_updated": "2026-06-20T02:33:38.203Z"
+  "m32": {
+    "home": 0,
+    "away": 1,
+    "live": false
+  },
+  "_updated": "2026-06-21T23:03:18.701Z"
 }
