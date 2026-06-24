@@ -215,5 +215,10 @@
     "away": 2,
     "live": false
   },
-  "_updated": "2026-06-24T23:24:10.038Z"
+  "m45": {
+    "home": 5,
+    "away": 0,
+    "live": false
+  },
+  "_updated": "2026-06-24T23:24:19.376Z"
 }
