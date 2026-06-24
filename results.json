@@ -200,5 +200,10 @@
     "away": 0,
     "live": false
   },
-  "_updated": "2026-06-24T23:23:43.962Z"
+  "m42": {
+    "home": 3,
+    "away": 0,
+    "live": false
+  },
+  "_updated": "2026-06-24T23:23:55.523Z"
 }
