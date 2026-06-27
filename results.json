@@ -280,5 +280,10 @@
     "away": 3,
     "live": false
   },
-  "_updated": "2026-06-27T16:23:27.250Z"
+  "m58": {
+    "home": 1,
+    "away": 1,
+    "live": false
+  },
+  "_updated": "2026-06-27T16:23:30.692Z"
 }
