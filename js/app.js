@@ -653,14 +653,95 @@ function bracketCard(id, t1Code, t2Code, date, time, label1, label2, isFinal) {
   </div>`;
 }
 
-function renderKnockout() {
-  let html = '';
+function bracketViewToggle() {
+  return `<div class="bracket-view-toggle">
+    <button class="bvt-btn${bracketView==='tree'?' bvt-active':''}" onclick="setBracketView('tree')">🌳 Llave</button>
+    <button class="bvt-btn${bracketView==='list'?' bvt-active':''}" onclick="setBracketView('list')">📋 Lista</button>
+  </div>`;
+}
 
-  // Round of 32
+function setBracketView(v) { bracketView = v; renderKnockout(); }
+
+// Compact tree card (used in bracket tree view)
+function tCard(id, isFinal) {
+  const info = R32_BRACKET.find(x => x.id === id) || KO_ROUNDS.find(x => x.id === id) || {};
+  const teams = getAllMatchTeams(id);
+  const r = results[id];
+  const hasR = r && r.home !== null && r.away !== null;
+  const t1 = teams.home ? TEAMS[teams.home] : null;
+  const t2 = teams.away ? TEAMS[teams.away] : null;
+  const w1 = hasR && r.home > r.away;
+  const w2 = hasR && r.away > r.home;
+  const live = hasR && r.live;
+  const editBtn = isAdmin ? `<button class="tc-edit" onclick="openModal('${id}')">✏️</button>` : '';
+  return `<div class="tc${isFinal?' tc-final':''}">
+    ${editBtn}
+    <div class="tc-team${w1?' tc-win':''}">
+      <span class="flag-sm">${t1 ? t1.flag : '❓'}</span>
+      <span class="tc-code">${teams.home || '—'}</span>
+      ${hasR ? `<span class="tc-sc">${r.home}</span>` : ''}
+    </div>
+    <div class="tc-div"></div>
+    <div class="tc-team${w2?' tc-win':''}">
+      <span class="flag-sm">${t2 ? t2.flag : '❓'}</span>
+      <span class="tc-code">${teams.away || '—'}</span>
+      ${hasR ? `<span class="tc-sc">${r.away}</span>` : ''}
+    </div>
+    ${info.date ? `<div class="tc-meta">${live?'🔴 ':''} ${info.date} · ${info.time}</div>` : ''}
+  </div>`;
+}
+
+function renderBracketTree() {
+  const L32 = ['r01','r02','r03','r04','r05','r06','r07','r08'];
+  const L16 = ['k01','k02','k03','k04'];
+  const LQF = ['k09','k10'];
+  const LSF = ['k13'];
+  const RSF = ['k14'];
+  const RQF = ['k11','k12'];
+  const R16 = ['k05','k06','k07','k08'];
+  const R32 = ['r09','r10','r11','r12','r13','r14','r15','r16'];
+
+  const col = ids => `<div class="tc-col">${ids.map(id => tCard(id)).join('')}</div>`;
+
+  const html = `${bracketViewToggle()}
+  <div class="tree-wrap">
+    <div class="tree-grid">
+      <div class="tree-half tree-left">
+        ${col(L32)}${col(L16)}${col(LQF)}${col(LSF)}
+      </div>
+      <div class="tree-center">
+        <div class="tree-trophy">🏆</div>
+        <div class="tc-center-label">FINAL · 19 jul</div>
+        ${tCard('k16', true)}
+        <div class="tc-center-label" style="margin-top:10px">3er PUESTO · 18 jul</div>
+        ${tCard('k15')}
+      </div>
+      <div class="tree-half tree-right">
+        ${col(RSF)}${col(RQF)}${col(R16)}${col(R32)}
+      </div>
+    </div>
+    <div class="tree-label-row">
+      <div class="tree-round-label">1/32</div>
+      <div class="tree-round-label">1/16</div>
+      <div class="tree-round-label">QF</div>
+      <div class="tree-round-label">SF</div>
+      <div class="tree-center-lbl"></div>
+      <div class="tree-round-label">SF</div>
+      <div class="tree-round-label">QF</div>
+      <div class="tree-round-label">1/16</div>
+      <div class="tree-round-label">1/32</div>
+    </div>
+  </div>`;
+
+  document.getElementById('knockout-container').innerHTML = html;
+}
+
+function renderBracketList() {
+  let html = bracketViewToggle();
+
   html += `<div class="bracket-round">
     <div class="bracket-round-title">Dieciseisavos · 28 jun – 3 jul</div>
     <div class="bracket-matches">`;
-
   R32_BRACKET.forEach(m => {
     const t1 = resolveSlot(m.slot1, m.id);
     const t2 = resolveSlot(m.slot2, m.id);
@@ -668,10 +749,8 @@ function renderKnockout() {
     const l2 = m.slot2.best3 ? `3° ${m.slot2.best3}` : '';
     html += bracketCard(m.id, t1, t2, m.date, m.time, l1, l2);
   });
-
   html += '</div></div>';
 
-  // Round of 16
   html += `<div class="bracket-round">
     <div class="bracket-round-title">Octavos de Final · 4 – 7 jul</div>
     <div class="bracket-matches">`;
@@ -680,7 +759,6 @@ function renderKnockout() {
   });
   html += '</div></div>';
 
-  // Quarterfinals
   html += `<div class="bracket-round">
     <div class="bracket-round-title">Cuartos de Final · 9 – 12 jul</div>
     <div class="bracket-matches">`;
@@ -689,7 +767,6 @@ function renderKnockout() {
   });
   html += '</div></div>';
 
-  // Semifinals
   html += `<div class="bracket-round">
     <div class="bracket-round-title">Semifinales · 14 – 15 jul</div>
     <div class="bracket-matches">`;
@@ -698,7 +775,6 @@ function renderKnockout() {
   });
   html += '</div></div>';
 
-  // Third place + Final
   html += `<div class="bracket-round">
     <div class="bracket-round-title">Final · 18 – 19 jul</div>
     <div class="bracket-matches">`;
@@ -710,11 +786,17 @@ function renderKnockout() {
   document.getElementById('knockout-container').innerHTML = html;
 }
 
+function renderKnockout() {
+  if (bracketView === 'tree') renderBracketTree();
+  else renderBracketList();
+}
+
 // ════════════════════════════════════════════════════════
 // MODAL
 // ════════════════════════════════════════════════════════
 let activeMatchId = null;
 let liveState = false;
+let bracketView = 'tree';
 
 function updateLiveBtn() {
   const btn = document.getElementById('btn-live');

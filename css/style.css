@@ -148,3 +148,32 @@ main{max-width:960px;margin:0 auto;padding:1.5rem 1rem 3rem;}
   .score-display{font-size:1.4rem;}
   .bracket-matches{grid-template-columns:1fr;}
 }
+
+/* ═══════════════════════ BRACKET TREE VIEW ═══════════════════════════════ */
+.bracket-view-toggle{display:flex;gap:8px;margin-bottom:1rem}
+.bvt-btn{background:var(--card2);border:1px solid var(--border);color:var(--muted);border-radius:20px;padding:4px 14px;font-size:.72rem;cursor:pointer;font-family:'Inter',sans-serif;font-weight:500}
+.bvt-btn.bvt-active{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700}
+.tree-wrap{overflow-x:auto;padding-bottom:.5rem}
+.tree-grid{display:flex;min-width:840px;align-items:stretch;min-height:700px}
+.tree-half{display:flex;flex:1;align-items:stretch}
+.tree-left{flex-direction:row}
+.tree-right{flex-direction:row-reverse}
+.tc-col{display:flex;flex-direction:column;justify-content:space-around;min-width:108px;padding:0 2px;flex:1}
+.tree-center{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:148px;padding:0 6px;gap:4px}
+.tree-trophy{font-size:2.2rem;text-align:center;line-height:1}
+.tc{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:5px 7px;position:relative}
+.tc.tc-final{border-color:var(--gold);background:rgba(245,197,24,.04)}
+.tc:hover{border-color:var(--accent)}
+.tc-team{display:flex;align-items:center;gap:3px;font-size:.68rem;font-weight:600;padding:2px 1px;white-space:nowrap}
+.tc-team .flag-sm{font-size:.82rem;flex-shrink:0}
+.tc-code{flex:1;overflow:hidden;text-overflow:ellipsis}
+.tc-sc{font-family:'Bebas Neue',sans-serif;font-size:.92rem;color:#fff;margin-left:1px;flex-shrink:0}
+.tc-team.tc-win .tc-code,.tc-team.tc-win .tc-sc{color:var(--gold)}
+.tc-div{height:1px;background:var(--border);margin:2px 0}
+.tc-meta{font-size:.55rem;color:var(--muted);margin-top:2px;text-align:center;white-space:nowrap}
+.tc-edit{position:absolute;top:2px;right:3px;background:none;border:none;cursor:pointer;font-size:.58rem;padding:0;opacity:.5}
+.tc-edit:hover{opacity:1}
+.tree-round-label{font-family:'Bebas Neue',sans-serif;font-size:.65rem;letter-spacing:.1em;color:var(--muted);text-align:center;flex:1;padding-top:4px}
+.tree-label-row{display:flex;min-width:840px;margin-top:.3rem}
+.tree-center-lbl{min-width:148px;flex:none}
+.tc-center-label{font-family:'Bebas Neue',sans-serif;font-size:.72rem;color:var(--muted);letter-spacing:.1em;text-align:center}
