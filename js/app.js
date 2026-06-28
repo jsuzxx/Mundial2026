@@ -474,8 +474,8 @@ function getBest3Assignments() {
   const slots = [
     {id:'r07', groups:'CEFHI'},
     {id:'r08', groups:'EHIJK'},
-    {id:'r09', groups:'AEHIJ'},
     {id:'r13', groups:'EFGIJ'},
+    {id:'r09', groups:'AEHIJ'},
     {id:'r16', groups:'DEIJL'},
   ];
   const b3 = getBest3rds().filter(t => !fixedGroups.has(t.groupCode));
