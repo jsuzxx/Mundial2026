@@ -174,25 +174,30 @@ const GROUPS_DEF = {
   K:['POR','COD','UZB','COL'], L:['ENG','CRO','GHA','PAN'],
 };
 
-// Round of 32 pairings (FIFA 2026 official bracket)
+// Round of 32 – cruces oficiales FIFA 2026
 const R32_BRACKET = [
-  {id:'r01', label:'1A vs 2C', slot1:{g:'A',pos:1}, slot2:{g:'C',pos:2}, date:'28 jun', time:'2:00 p.m.'},
-  {id:'r02', label:'1B vs 2D', slot1:{g:'B',pos:1}, slot2:{g:'D',pos:2}, date:'28 jun', time:'5:00 p.m.'},
-  {id:'r03', label:'1C vs 2A', slot1:{g:'C',pos:1}, slot2:{g:'A',pos:2}, date:'28 jun', time:'8:00 p.m.'},
-  {id:'r04', label:'1D vs 2B', slot1:{g:'D',pos:1}, slot2:{g:'B',pos:2}, date:'29 jun', time:'2:00 p.m.'},
-  {id:'r05', label:'1E vs 2G', slot1:{g:'E',pos:1}, slot2:{g:'G',pos:2}, date:'29 jun', time:'5:00 p.m.'},
-  {id:'r06', label:'1F vs 2H', slot1:{g:'F',pos:1}, slot2:{g:'H',pos:2}, date:'29 jun', time:'8:00 p.m.'},
-  {id:'r07', label:'1G vs 2E', slot1:{g:'G',pos:1}, slot2:{g:'E',pos:2}, date:'30 jun', time:'2:00 p.m.'},
-  {id:'r08', label:'1H vs 2F', slot1:{g:'H',pos:1}, slot2:{g:'F',pos:2}, date:'30 jun', time:'5:00 p.m.'},
-  {id:'r09', label:'1I vs 2K', slot1:{g:'I',pos:1}, slot2:{g:'K',pos:2}, date:'30 jun', time:'8:00 p.m.'},
-  {id:'r10', label:'1J vs 2L', slot1:{g:'J',pos:1}, slot2:{g:'L',pos:2}, date:'1 jul',  time:'2:00 p.m.'},
-  {id:'r11', label:'1K vs 2I', slot1:{g:'K',pos:1}, slot2:{g:'I',pos:2}, date:'1 jul',  time:'5:00 p.m.'},
-  {id:'r12', label:'1L vs 2J', slot1:{g:'L',pos:1}, slot2:{g:'J',pos:2}, date:'1 jul',  time:'8:00 p.m.'},
-  // 3rd-place slots (best 8 of 12 advance)
-  {id:'r13', label:'Mejor 3º (1)', slot1:{g:'?',pos:3}, slot2:{g:'?',pos:3}, date:'2 jul', time:'2:00 p.m.'},
-  {id:'r14', label:'Mejor 3º (2)', slot1:{g:'?',pos:3}, slot2:{g:'?',pos:3}, date:'2 jul', time:'5:00 p.m.'},
-  {id:'r15', label:'Mejor 3º (3)', slot1:{g:'?',pos:3}, slot2:{g:'?',pos:3}, date:'2 jul', time:'8:00 p.m.'},
-  {id:'r16', label:'Mejor 3º (4)', slot1:{g:'?',pos:3}, slot2:{g:'?',pos:3}, date:'3 jul', time:'2:00 p.m.'},
+  // ── 28 junio ──
+  {id:'r01', label:'2A vs 2B',  slot1:{g:'A',pos:2}, slot2:{g:'B',pos:2},       date:'28 jun', time:'2:00 p.m.'},
+  // ── 29 junio ──
+  {id:'r02', label:'1C vs 2F',  slot1:{g:'C',pos:1}, slot2:{g:'F',pos:2},       date:'29 jun', time:'12:00 m.'},
+  {id:'r03', label:'1E vs 3D',  slot1:{g:'E',pos:1}, slot2:{g:'D',pos:3},       date:'29 jun', time:'3:30 p.m.'},
+  {id:'r04', label:'1F vs 2C',  slot1:{g:'F',pos:1}, slot2:{g:'C',pos:2},       date:'29 jun', time:'8:00 p.m.'},
+  // ── 30 junio ──
+  {id:'r05', label:'2E vs 2I',  slot1:{g:'E',pos:2}, slot2:{g:'I',pos:2},       date:'30 jun', time:'12:00 m.'},
+  {id:'r06', label:'1I vs 3F',  slot1:{g:'I',pos:1}, slot2:{g:'F',pos:3},       date:'30 jun', time:'4:00 p.m.'},
+  {id:'r07', label:'1A vs 3°',  slot1:{g:'A',pos:1}, slot2:{best3:'CEFHI'},     date:'30 jun', time:'8:00 p.m.'},
+  // ── 1 julio ──
+  {id:'r08', label:'1L vs 3°',  slot1:{g:'L',pos:1}, slot2:{best3:'EHIJK'},     date:'1 jul',  time:'11:00 a.m.'},
+  {id:'r09', label:'1G vs 3°',  slot1:{g:'G',pos:1}, slot2:{best3:'AEHIJ'},     date:'1 jul',  time:'3:00 p.m.'},
+  {id:'r10', label:'1D vs 3B',  slot1:{g:'D',pos:1}, slot2:{g:'B',pos:3},       date:'1 jul',  time:'7:00 p.m.'},
+  // ── 2 julio ──
+  {id:'r11', label:'1H vs 2J',  slot1:{g:'H',pos:1}, slot2:{g:'J',pos:2},       date:'2 jul',  time:'2:00 p.m.'},
+  {id:'r12', label:'2K vs 2L',  slot1:{g:'K',pos:2}, slot2:{g:'L',pos:2},       date:'2 jul',  time:'6:00 p.m.'},
+  {id:'r13', label:'1B vs 3°',  slot1:{g:'B',pos:1}, slot2:{best3:'EFGIJ'},     date:'2 jul',  time:'10:00 p.m.'},
+  // ── 3 julio ──
+  {id:'r14', label:'2D vs 2G',  slot1:{g:'D',pos:2}, slot2:{g:'G',pos:2},       date:'3 jul',  time:'1:00 p.m.'},
+  {id:'r15', label:'1J vs 2H',  slot1:{g:'J',pos:1}, slot2:{g:'H',pos:2},       date:'3 jul',  time:'5:00 p.m.'},
+  {id:'r16', label:'1K vs 3°',  slot1:{g:'K',pos:1}, slot2:{best3:'DEIJL'},     date:'3 jul',  time:'8:30 p.m.'},
 ];
 
 // Knockout rounds: octavos, cuartos, semis, tercero, final
@@ -463,8 +468,34 @@ function getBest3rds() {
   });
 }
 
-function resolveSlot(slot) {
-  if (slot.pos === 3 && slot.g === '?') return null;
+// Assigns the 5 "best 3rd" R32 slots greedily in slot order (best available from allowed groups)
+function getBest3Assignments() {
+  const fixedGroups = new Set(['B', 'D', 'F']); // these 3rds go to fixed-group slots (r03, r06, r10)
+  const slots = [
+    {id:'r07', groups:'CEFHI'},
+    {id:'r08', groups:'EHIJK'},
+    {id:'r09', groups:'AEHIJ'},
+    {id:'r13', groups:'EFGIJ'},
+    {id:'r16', groups:'DEIJL'},
+  ];
+  const b3 = getBest3rds().filter(t => !fixedGroups.has(t.groupCode));
+  const used = new Set();
+  const map = {};
+  slots.forEach(s => {
+    const grps = s.groups.split('');
+    const t = b3.find(x => grps.includes(x.groupCode) && !used.has(x.code));
+    map[s.id] = t ? t.code : null;
+    if (t) used.add(t.code);
+  });
+  return map;
+}
+
+function resolveSlot(slot, matchId) {
+  if (slot.best3) {
+    const map = getBest3Assignments();
+    return matchId ? (map[matchId] ?? null) : null;
+  }
+  if (!GROUPS_DEF[slot.g]) return null;
   const sorted = sortGroup(GROUPS_DEF[slot.g], calcStandings());
   const row = sorted[slot.pos - 1];
   return row ? row.code : null;
@@ -472,26 +503,12 @@ function resolveSlot(slot) {
 
 // Returns {home, away} team codes for ANY match id (group, R32, or KO)
 function getAllMatchTeams(id) {
-  // Group stage
   const gm = MATCHES.find(x => x.id === id);
   if (gm) return { home: gm.home, away: gm.away };
 
-  // R32 pairings (r01-r12)
-  const r32 = R32_BRACKET.slice(0, 12).find(x => x.id === id);
-  if (r32) return { home: resolveSlot(r32.slot1), away: resolveSlot(r32.slot2) };
+  const r32 = R32_BRACKET.find(x => x.id === id);
+  if (r32) return { home: resolveSlot(r32.slot1, r32.id), away: resolveSlot(r32.slot2, r32.id) };
 
-  // R32 best-3rd matches (r13-r16)
-  const thirdIds = ['r13','r14','r15','r16'];
-  const ti = thirdIds.indexOf(id);
-  if (ti >= 0) {
-    const b3 = getBest3rds();
-    return {
-      home: b3[ti*2]   ? b3[ti*2].code   : null,
-      away: b3[ti*2+1] ? b3[ti*2+1].code : null,
-    };
-  }
-
-  // KO rounds (k01-k16)
   const ko = KO_ROUNDS.find(x => x.id === id);
   if (ko) return { home: resolveKOSlot(ko.slot1), away: resolveKOSlot(ko.slot2) };
 
@@ -637,7 +654,6 @@ function bracketCard(id, t1Code, t2Code, date, time, label1, label2, isFinal) {
 }
 
 function renderKnockout() {
-  const best3 = getBest3rds();
   let html = '';
 
   // Round of 32
@@ -645,23 +661,12 @@ function renderKnockout() {
     <div class="bracket-round-title">Dieciseisavos · 28 jun – 3 jul</div>
     <div class="bracket-matches">`;
 
-  R32_BRACKET.slice(0, 12).forEach(m => {
-    const t1 = resolveSlot(m.slot1);
-    const t2 = resolveSlot(m.slot2);
-    html += bracketCard(m.id, t1, t2, m.date, m.time);
-  });
-
-  // Best-3rd matches (r13-r16, 4 matches)
-  const thirdIds = ['r13','r14','r15','r16'];
-  thirdIds.forEach((rid, i) => {
-    const t1row = best3[i*2];
-    const t2row = best3[i*2+1];
-    const t1 = t1row ? t1row.code : null;
-    const t2 = t2row ? t2row.code : null;
-    const info = R32_BRACKET.find(x => x.id === rid);
-    const l1 = t1row ? `3°${t1row.groupCode}` : '';
-    const l2 = t2row ? `3°${t2row.groupCode}` : '';
-    html += bracketCard(rid, t1, t2, info.date, info.time, l1, l2);
+  R32_BRACKET.forEach(m => {
+    const t1 = resolveSlot(m.slot1, m.id);
+    const t2 = resolveSlot(m.slot2, m.id);
+    const l1 = m.slot1.best3 ? `3° ${m.slot1.best3}` : '';
+    const l2 = m.slot2.best3 ? `3° ${m.slot2.best3}` : '';
+    html += bracketCard(m.id, t1, t2, m.date, m.time, l1, l2);
   });
 
   html += '</div></div>';
