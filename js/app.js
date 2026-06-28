@@ -204,9 +204,9 @@ const R32_BRACKET = [
 // slot.from = match ID whose winner (w:true) or loser (w:false) advances here
 const KO_ROUNDS = [
   // Round of 16
-  {id:'k01',round:'r16',label:'Octavos 1', date:'4 jul', time:'2:00 p.m.', slot1:{from:'r01',w:true}, slot2:{from:'r02',w:true}},
-  {id:'k02',round:'r16',label:'Octavos 2', date:'4 jul', time:'6:00 p.m.', slot1:{from:'r03',w:true}, slot2:{from:'r04',w:true}},
-  {id:'k03',round:'r16',label:'Octavos 3', date:'5 jul', time:'2:00 p.m.', slot1:{from:'r05',w:true}, slot2:{from:'r06',w:true}},
+  {id:'k01',round:'r16',label:'Octavos 1', date:'4 jul', time:'2:00 p.m.', slot1:{from:'r04',w:true}, slot2:{from:'r06',w:true}},
+  {id:'k02',round:'r16',label:'Octavos 2', date:'4 jul', time:'6:00 p.m.', slot1:{from:'r01',w:true}, slot2:{from:'r02',w:true}},
+  {id:'k03',round:'r16',label:'Octavos 3', date:'5 jul', time:'2:00 p.m.', slot1:{from:'r03',w:true}, slot2:{from:'r05',w:true}},
   {id:'k04',round:'r16',label:'Octavos 4', date:'5 jul', time:'6:00 p.m.', slot1:{from:'r07',w:true}, slot2:{from:'r08',w:true}},
   {id:'k05',round:'r16',label:'Octavos 5', date:'6 jul', time:'2:00 p.m.', slot1:{from:'r09',w:true}, slot2:{from:'r10',w:true}},
   {id:'k06',round:'r16',label:'Octavos 6', date:'6 jul', time:'6:00 p.m.', slot1:{from:'r11',w:true}, slot2:{from:'r12',w:true}},
@@ -692,7 +692,7 @@ function tCard(id, isFinal) {
 }
 
 function renderBracketTree() {
-  const L32 = ['r01','r02','r03','r04','r05','r06','r07','r08'];
+  const L32 = ['r04','r06','r01','r02','r03','r05','r07','r08'];
   const L16 = ['k01','k02','k03','k04'];
   const LQF = ['k09','k10'];
   const LSF = ['k13'];
