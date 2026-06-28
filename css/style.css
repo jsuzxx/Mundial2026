@@ -157,7 +157,7 @@ main{max-width:960px;margin:0 auto;padding:1.5rem 1rem 3rem;}
 .tree-grid{display:flex;min-width:840px;align-items:stretch;min-height:700px}
 .tree-half{display:flex;flex:1;align-items:stretch}
 .tree-left{flex-direction:row}
-.tree-right{flex-direction:row-reverse}
+.tree-right{flex-direction:row}
 .tc-col{display:flex;flex-direction:column;justify-content:space-around;min-width:108px;padding:0 2px;flex:1}
 .tree-center{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:148px;padding:0 6px;gap:4px}
 .tree-trophy{font-size:2.2rem;text-align:center;line-height:1}
