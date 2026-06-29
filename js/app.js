@@ -522,7 +522,11 @@ function resolveKOSlot(slot) {
   const teams = getAllMatchTeams(slot.from);
   if (r.home > r.away) return slot.w ? teams.home : teams.away;
   if (r.away > r.home) return slot.w ? teams.away : teams.home;
-  return null; // draw (needs penalty/ET decision)
+  if (r.pen_home != null && r.pen_away != null) {
+    if (r.pen_home > r.pen_away) return slot.w ? teams.home : teams.away;
+    if (r.pen_away > r.pen_home) return slot.w ? teams.away : teams.home;
+  }
+  return null;
 }
 
 function getMatchGroup(match) {
@@ -626,8 +630,9 @@ function renderGroups() {
 function bracketCard(id, t1Code, t2Code, date, time, label1, label2, isFinal) {
   const r = results[id];
   const hasR = r && r.home !== null && r.away !== null;
-  const w1 = hasR && r.home > r.away;
-  const w2 = hasR && r.away > r.home;
+  const hasPen = hasR && r.pen_home != null && r.pen_away != null;
+  const w1 = hasR && (r.home > r.away || (r.home === r.away && hasPen && r.pen_home > r.pen_away));
+  const w2 = hasR && (r.away > r.home || (r.home === r.away && hasPen && r.pen_away > r.pen_home));
   const isLive = hasR && r.live;
 
   const t1 = t1Code ? TEAMS[t1Code] : null;
@@ -647,7 +652,7 @@ function bracketCard(id, t1Code, t2Code, date, time, label1, label2, isFinal) {
     <div class="bracket-meta">
       <span>${date} · ${time}</span>
       ${isLive ? '<span class="live-badge">EN VIVO</span>' : ''}
-      ${hasR && !isLive ? '<span class="ft-badge">FT</span>' : ''}
+      ${hasR && !isLive ? `<span class="ft-badge">${hasPen ? `Pen. ${r.pen_home}–${r.pen_away}` : 'FT'}</span>` : ''}
     </div>
     ${isAdmin ? `<button class="edit-btn" onclick="openModal('${id}')" title="Editar resultado">✏️</button>` : ''}
   </div>`;
@@ -670,8 +675,9 @@ function tCard(id, isFinal) {
   const hasR = r && r.home !== null && r.away !== null;
   const t1 = teams.home ? TEAMS[teams.home] : null;
   const t2 = teams.away ? TEAMS[teams.away] : null;
-  const w1 = hasR && r.home > r.away;
-  const w2 = hasR && r.away > r.home;
+  const hasPen = hasR && r.pen_home != null && r.pen_away != null;
+  const w1 = hasR && (r.home > r.away || (r.home === r.away && hasPen && r.pen_home > r.pen_away));
+  const w2 = hasR && (r.away > r.home || (r.home === r.away && hasPen && r.pen_away > r.pen_home));
   const live = hasR && r.live;
   const editBtn = isAdmin ? `<button class="tc-edit" onclick="openModal('${id}')">✏️</button>` : '';
   return `<div class="tc${isFinal?' tc-final':''}">
@@ -687,7 +693,7 @@ function tCard(id, isFinal) {
       <span class="tc-code">${teams.away || '—'}</span>
       ${hasR ? `<span class="tc-sc">${r.away}</span>` : ''}
     </div>
-    ${info.date ? `<div class="tc-meta">${live?'🔴 ':''} ${info.date} · ${info.time}</div>` : ''}
+    ${info.date ? `<div class="tc-meta">${live?'🔴 ':''} ${info.date} · ${info.time}${hasPen ? ` · P${r.pen_home}-${r.pen_away}` : ''}</div>` : ''}
   </div>`;
 }
 
@@ -824,6 +830,17 @@ function openModal(id) {
   document.getElementById('lbl-away').textContent = awayCode ? at.name : 'Visitante';
   document.getElementById('inp-home').value = (r.home !== null && r.home !== undefined) ? r.home : '';
   document.getElementById('inp-away').value = (r.away !== null && r.away !== undefined) ? r.away : '';
+
+  const isKO = R32_BRACKET.some(x => x.id === id) || KO_ROUNDS.some(x => x.id === id);
+  const penSection = document.getElementById('penalty-section');
+  penSection.style.display = isKO ? '' : 'none';
+  if (isKO) {
+    document.getElementById('lbl-pen-home').textContent = homeCode ? ht.name : 'Local';
+    document.getElementById('lbl-pen-away').textContent = awayCode ? at.name : 'Visitante';
+    document.getElementById('inp-pen-home').value = (r.pen_home != null) ? r.pen_home : '';
+    document.getElementById('inp-pen-away').value = (r.pen_away != null) ? r.pen_away : '';
+  }
+
   document.getElementById('modal').style.display = 'flex';
   setTimeout(() => document.getElementById('inp-home').focus(), 100);
 }
@@ -839,7 +856,17 @@ document.getElementById('btn-save').onclick = async () => {
   const h = document.getElementById('inp-home').value;
   const a = document.getElementById('inp-away').value;
   if (h === '' || a === '') return;
-  results[activeMatchId] = { home: parseInt(h), away: parseInt(a), live: liveState };
+  const resultObj = { home: parseInt(h), away: parseInt(a), live: liveState };
+  const isKO = R32_BRACKET.some(x => x.id === activeMatchId) || KO_ROUNDS.some(x => x.id === activeMatchId);
+  if (isKO) {
+    const ph = document.getElementById('inp-pen-home').value;
+    const pa = document.getElementById('inp-pen-away').value;
+    if (ph !== '' && pa !== '') {
+      resultObj.pen_home = parseInt(ph);
+      resultObj.pen_away = parseInt(pa);
+    }
+  }
+  results[activeMatchId] = resultObj;
   closeModal(); refresh();
   await saveToGitHub();
 };
