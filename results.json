@@ -323,5 +323,10 @@
     "away": 0,
     "live": false
   },
-  "_updated": "2026-06-30T22:41:45.936Z"
+  "r07": {
+    "home": 2,
+    "away": 0,
+    "live": false
+  },
+  "_updated": "2026-07-01T03:56:32.503Z"
 }
