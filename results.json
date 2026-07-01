@@ -333,5 +333,10 @@
     "away": 1,
     "live": false
   },
-  "_updated": "2026-07-01T18:09:38.190Z"
+  "r09": {
+    "home": 3,
+    "away": 2,
+    "live": false
+  },
+  "_updated": "2026-07-01T23:27:47.774Z"
 }
