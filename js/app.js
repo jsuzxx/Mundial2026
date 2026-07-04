@@ -213,17 +213,17 @@ const KO_ROUNDS = [
   {id:'k07',round:'r16',label:'Octavos 7', date:'7 jul', time:'11:00 p.m.', slot1:{from:'r15',w:true}, slot2:{from:'r14',w:true}},
   {id:'k08',round:'r16',label:'Octavos 8', date:'7 jul', time:'3:00 p.m.', slot1:{from:'r13',w:true}, slot2:{from:'r16',w:true}},
   // Quarterfinals
-  {id:'k09',round:'qf', label:'Cuartos 1', date:'9 jul',  time:'2:00 p.m.', slot1:{from:'k01',w:true}, slot2:{from:'k02',w:true}},
-  {id:'k10',round:'qf', label:'Cuartos 2', date:'9 jul',  time:'6:00 p.m.', slot1:{from:'k03',w:true}, slot2:{from:'k04',w:true}},
-  {id:'k11',round:'qf', label:'Cuartos 3', date:'10 jul', time:'2:00 p.m.', slot1:{from:'k05',w:true}, slot2:{from:'k06',w:true}},
-  {id:'k12',round:'qf', label:'Cuartos 4', date:'10 jul', time:'6:00 p.m.', slot1:{from:'k07',w:true}, slot2:{from:'k08',w:true}},
+  {id:'k09',round:'qf', label:'Cuartos 1', date:'9 jul',  time:'3:00 p.m.', slot1:{from:'k01',w:true}, slot2:{from:'k02',w:true}},
+  {id:'k10',round:'qf', label:'Cuartos 2', date:'10 jul',  time:'2:00 p.m.', slot1:{from:'k03',w:true}, slot2:{from:'k04',w:true}},
+  {id:'k11',round:'qf', label:'Cuartos 3', date:'11 jul', time:'4:00 p.m.', slot1:{from:'k05',w:true}, slot2:{from:'k06',w:true}},
+  {id:'k12',round:'qf', label:'Cuartos 4', date:'11 jul', time:'8:00 p.m.', slot1:{from:'k07',w:true}, slot2:{from:'k08',w:true}},
   // Semifinals
   {id:'k13',round:'sf',  label:'Semifinal 1', date:'14 jul', time:'2:00 p.m.', slot1:{from:'k09',w:true}, slot2:{from:'k10',w:true}},
-  {id:'k14',round:'sf',  label:'Semifinal 2', date:'15 jul', time:'6:00 p.m.', slot1:{from:'k11',w:true}, slot2:{from:'k12',w:true}},
+  {id:'k14',round:'sf',  label:'Semifinal 2', date:'15 jul', time:'2:00 p.m.', slot1:{from:'k11',w:true}, slot2:{from:'k12',w:true}},
   // Third place
-  {id:'k15',round:'3rd', label:'Tercer Puesto', date:'18 jul', time:'2:00 p.m.', slot1:{from:'k13',w:false}, slot2:{from:'k14',w:false}},
+  {id:'k15',round:'3rd', label:'Tercer Puesto', date:'18 jul', time:'4:00 p.m.', slot1:{from:'k13',w:false}, slot2:{from:'k14',w:false}},
   // Final
-  {id:'k16',round:'final',label:'Gran Final 🏆', date:'19 jul', time:'3:00 p.m.', slot1:{from:'k13',w:true}, slot2:{from:'k14',w:true}},
+  {id:'k16',round:'final',label:'Gran Final 🏆', date:'19 jul', time:'2:00 p.m.', slot1:{from:'k13',w:true}, slot2:{from:'k14',w:true}},
 ];
 
 const DAYS_ES=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
