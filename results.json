@@ -302,7 +302,78 @@
   "r03": {
     "home": 1,
     "away": 1,
+    "live": false,
+    "pen_home": 3,
+    "pen_away": 4
+  },
+  "r04": {
+    "home": 1,
+    "away": 1,
+    "live": false,
+    "pen_home": 2,
+    "pen_away": 3
+  },
+  "r05": {
+    "home": 1,
+    "away": 2,
     "live": false
   },
-  "_updated": "2026-06-29T23:28:09.456Z"
+  "r06": {
+    "home": 3,
+    "away": 0,
+    "live": false
+  },
+  "r07": {
+    "home": 2,
+    "away": 0,
+    "live": false
+  },
+  "r08": {
+    "home": 2,
+    "away": 1,
+    "live": false
+  },
+  "r09": {
+    "home": 3,
+    "away": 2,
+    "live": false
+  },
+  "r10": {
+    "home": 2,
+    "away": 0,
+    "live": false
+  },
+  "r11": {
+    "home": 3,
+    "away": 0,
+    "live": false
+  },
+  "r12": {
+    "home": 2,
+    "away": 1,
+    "live": false
+  },
+  "r15": {
+    "home": 3,
+    "away": 2,
+    "live": false
+  },
+  "r14": {
+    "home": 1,
+    "away": 1,
+    "live": false,
+    "pen_home": 2,
+    "pen_away": 4
+  },
+  "r13": {
+    "home": 2,
+    "away": 0,
+    "live": false
+  },
+  "r16": {
+    "home": 1,
+    "away": 0,
+    "live": false
+  },
+  "_updated": "2026-07-04T03:39:12.814Z"
 }
