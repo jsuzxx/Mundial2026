@@ -358,5 +358,12 @@
     "away": 2,
     "live": false
   },
-  "_updated": "2026-07-04T03:38:25.144Z"
+  "r14": {
+    "home": 1,
+    "away": 1,
+    "live": false,
+    "pen_home": 2,
+    "pen_away": 4
+  },
+  "_updated": "2026-07-04T03:38:45.592Z"
 }
