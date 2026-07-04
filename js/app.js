@@ -204,14 +204,14 @@ const R32_BRACKET = [
 // slot.from = match ID whose winner (w:true) or loser (w:false) advances here
 const KO_ROUNDS = [
   // Round of 16
-  {id:'k01',round:'r16',label:'Octavos 1', date:'4 jul', time:'2:00 p.m.', slot1:{from:'r03',w:true}, slot2:{from:'r06',w:true}},
-  {id:'k02',round:'r16',label:'Octavos 2', date:'4 jul', time:'6:00 p.m.', slot1:{from:'r01',w:true}, slot2:{from:'r04',w:true}},
-  {id:'k03',round:'r16',label:'Octavos 3', date:'5 jul', time:'2:00 p.m.', slot1:{from:'r12',w:true}, slot2:{from:'r11',w:true}},
-  {id:'k04',round:'r16',label:'Octavos 4', date:'5 jul', time:'6:00 p.m.', slot1:{from:'r10',w:true}, slot2:{from:'r09',w:true}},
-  {id:'k05',round:'r16',label:'Octavos 5', date:'6 jul', time:'2:00 p.m.', slot1:{from:'r02',w:true}, slot2:{from:'r05',w:true}},
-  {id:'k06',round:'r16',label:'Octavos 6', date:'6 jul', time:'6:00 p.m.', slot1:{from:'r07',w:true}, slot2:{from:'r08',w:true}},
-  {id:'k07',round:'r16',label:'Octavos 7', date:'7 jul', time:'2:00 p.m.', slot1:{from:'r15',w:true}, slot2:{from:'r14',w:true}},
-  {id:'k08',round:'r16',label:'Octavos 8', date:'7 jul', time:'6:00 p.m.', slot1:{from:'r13',w:true}, slot2:{from:'r16',w:true}},
+  {id:'k01',round:'r16',label:'Octavos 1', date:'4 jul', time:'4:00 p.m.', slot1:{from:'r03',w:true}, slot2:{from:'r06',w:true}},
+  {id:'k02',round:'r16',label:'Octavos 2', date:'4 jul', time:'12:00 p.m.', slot1:{from:'r01',w:true}, slot2:{from:'r04',w:true}},
+  {id:'k03',round:'r16',label:'Octavos 3', date:'6 jul', time:'2:00 p.m.', slot1:{from:'r12',w:true}, slot2:{from:'r11',w:true}},
+  {id:'k04',round:'r16',label:'Octavos 4', date:'6 jul', time:'7:00 p.m.', slot1:{from:'r10',w:true}, slot2:{from:'r09',w:true}},
+  {id:'k05',round:'r16',label:'Octavos 5', date:'5 jul', time:'3:00 p.m.', slot1:{from:'r02',w:true}, slot2:{from:'r05',w:true}},
+  {id:'k06',round:'r16',label:'Octavos 6', date:'5 jul', time:'7:00 p.m.', slot1:{from:'r07',w:true}, slot2:{from:'r08',w:true}},
+  {id:'k07',round:'r16',label:'Octavos 7', date:'7 jul', time:'11:00 p.m.', slot1:{from:'r15',w:true}, slot2:{from:'r14',w:true}},
+  {id:'k08',round:'r16',label:'Octavos 8', date:'7 jul', time:'3:00 p.m.', slot1:{from:'r13',w:true}, slot2:{from:'r16',w:true}},
   // Quarterfinals
   {id:'k09',round:'qf', label:'Cuartos 1', date:'9 jul',  time:'2:00 p.m.', slot1:{from:'k01',w:true}, slot2:{from:'k02',w:true}},
   {id:'k10',round:'qf', label:'Cuartos 2', date:'9 jul',  time:'6:00 p.m.', slot1:{from:'k03',w:true}, slot2:{from:'k04',w:true}},
