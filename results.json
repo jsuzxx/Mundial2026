@@ -365,5 +365,10 @@
     "pen_home": 2,
     "pen_away": 4
   },
-  "_updated": "2026-07-04T03:38:45.592Z"
+  "r13": {
+    "home": 2,
+    "away": 0,
+    "live": false
+  },
+  "_updated": "2026-07-04T03:39:08.918Z"
 }
