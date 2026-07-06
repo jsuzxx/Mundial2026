@@ -390,5 +390,10 @@
     "away": 2,
     "live": false
   },
-  "_updated": "2026-07-05T22:35:14.490Z"
+  "k06": {
+    "home": 2,
+    "away": 3,
+    "live": false
+  },
+  "_updated": "2026-07-06T05:58:58.330Z"
 }
