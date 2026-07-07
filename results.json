@@ -400,5 +400,10 @@
     "away": 1,
     "live": false
   },
-  "_updated": "2026-07-07T03:50:15.189Z"
+  "k04": {
+    "home": 1,
+    "away": 4,
+    "live": false
+  },
+  "_updated": "2026-07-07T03:50:20.234Z"
 }
