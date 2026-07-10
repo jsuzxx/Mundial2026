@@ -417,5 +417,10 @@
     "pen_home": 4,
     "pen_away": 3
   },
-  "_updated": "2026-07-07T22:52:23.005Z"
+  "k09": {
+    "home": 2,
+    "away": 0,
+    "live": false
+  },
+  "_updated": "2026-07-10T21:04:18.222Z"
 }
