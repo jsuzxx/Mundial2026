@@ -422,5 +422,10 @@
     "away": 0,
     "live": false
   },
-  "_updated": "2026-07-10T21:04:18.222Z"
+  "k10": {
+    "home": 2,
+    "away": 1,
+    "live": false
+  },
+  "_updated": "2026-07-10T21:04:22.539Z"
 }
