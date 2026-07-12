@@ -432,5 +432,10 @@
     "away": 2,
     "live": false
   },
-  "_updated": "2026-07-12T05:15:41.051Z"
+  "k12": {
+    "home": 3,
+    "away": 1,
+    "live": false
+  },
+  "_updated": "2026-07-12T05:15:50.704Z"
 }
