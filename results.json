@@ -442,5 +442,10 @@
     "away": 2,
     "live": false
   },
-  "_updated": "2026-07-14T21:31:55.885Z"
+  "k14": {
+    "home": 1,
+    "away": 2,
+    "live": false
+  },
+  "_updated": "2026-07-15T21:10:19.666Z"
 }
